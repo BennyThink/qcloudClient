@@ -1,5 +1,5 @@
 
-import com.benny.utilities.Region;
+import com.benny.utilities.util;
 import com.qcloud.Module.Cvm;
 import com.qcloud.QcloudApiModuleCenter;
 import com.qcloud.Utilities.Json.*;
@@ -24,6 +24,8 @@ public class Console extends javax.swing.JFrame {
      */
     public Console() {
         initComponents();
+        setLocationRelativeTo(null);
+        hostStatus.setRowHeight(40);
         
     }
 
@@ -82,15 +84,22 @@ public class Console extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "实例ID/主机名", "状态", "类型", "配置", "IP地址", "计费模式"
+                "实例ID/主机名", "状态", "操作系统", "配置", "IP地址", "到期日期"
             }
         ) {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(hostStatus);
@@ -116,8 +125,8 @@ public class Console extends javax.swing.JFrame {
                         .addComponent(ca))
                     .addGroup(instanceLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 717, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(24, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 843, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(166, Short.MAX_VALUE))
         );
         instanceLayout.setVerticalGroup(
             instanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,7 +141,7 @@ public class Console extends javax.swing.JFrame {
                     .addComponent(ca))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(339, Short.MAX_VALUE))
+                .addContainerGap(398, Short.MAX_VALUE))
         );
 
         hostSet.addTab("实例", instance);
@@ -141,11 +150,11 @@ public class Console extends javax.swing.JFrame {
         snapshot.setLayout(snapshotLayout);
         snapshotLayout.setHorizontalGroup(
             snapshotLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 751, Short.MAX_VALUE)
+            .addGap(0, 1019, Short.MAX_VALUE)
         );
         snapshotLayout.setVerticalGroup(
             snapshotLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 492, Short.MAX_VALUE)
+            .addGap(0, 551, Short.MAX_VALUE)
         );
 
         hostSet.addTab("快照", snapshot);
@@ -167,11 +176,15 @@ public class Console extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(hostTab)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(hostTab, javax.swing.GroupLayout.PREFERRED_SIZE, 1069, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(hostTab)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(hostTab, javax.swing.GroupLayout.PREFERRED_SIZE, 585, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -183,15 +196,12 @@ public class Console extends javax.swing.JFrame {
         //获取北京节点的实例信息
         //System.out.println(bj.getText());
         //
+        util regionID=new util();
+        util getVal=new util();
         
-        Region regionID=new Region();
-        
-        JSONArray test=new JSONArray();
         //2017年1月18日18:13:17
         //核心问题在于如何处理JSON数组，SDK提供了JSON相关的几个类。
 
-
-/*
 		TreeMap<String, Object> config = new TreeMap<String, Object>();
 		config.put("SecretId", "AKIDdZS8HJeC6pMuITAGC1gx8JK9B2ijqDi1");
 		config.put("SecretKey", "lQtCKI4e6bzBDWi1Cj9NPJ1XryymTC0i");
@@ -207,12 +217,27 @@ public class Console extends javax.swing.JFrame {
 		try {
 			result = module.call("DescribeInstances", params);
 			JSONObject json_result = new JSONObject(result);
-			System.out.println( json_result.get("instanceSet"));
+            //System.out.println(json_result);
+            
+            hostStatus.setValueAt(getVal.getIV(json_result, 0, "unInstanceId") + " "
+                + getVal.getIV(json_result, 0, "instanceName"), 0, 0);
+            hostStatus.setValueAt(getVal.getIV(json_result, 0, "status"), 0, 1);
+            hostStatus.setValueAt(getVal.getIV(json_result, 0, "os"), 0, 2);
+            hostStatus.setValueAt(getVal.getIV(json_result, 0, "cpu") + "核 "
+                + getVal.getIV(json_result, 0, "mem") + "G "
+                + getVal.getIV(json_result, 0, "bandwidth") + "Mbps", 0, 3);//配置
+
+            hostStatus.setValueAt(getVal.getIV(json_result, 0, "wanIpSet").replace('[', ' ').replace(']', ' ').replace('"', ' ').trim(),
+                0, 4);
+            hostStatus.setValueAt(getVal.getIV(json_result, 0, "deadlineTime"), 0, 5);
+            
+           
+            
 		} catch (Exception e) {
 			System.out.println("error..." + e.getMessage());
 		}
         
-     */   
+      
         
         
         

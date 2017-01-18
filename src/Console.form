@@ -27,12 +27,18 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="hostTab" alignment="0" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <Component id="hostTab" min="-2" pref="1069" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="hostTab" alignment="0" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <Component id="hostTab" min="-2" pref="585" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -100,10 +106,10 @@
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jScrollPane1" min="-2" pref="717" max="-2" attributes="0"/>
+                                      <Component id="jScrollPane1" min="-2" pref="843" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="24" max="32767" attributes="0"/>
+                              <EmptySpace pref="166" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -121,7 +127,7 @@
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jScrollPane1" min="-2" pref="83" max="-2" attributes="0"/>
-                              <EmptySpace pref="339" max="32767" attributes="0"/>
+                              <EmptySpace pref="398" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -189,12 +195,12 @@
                           <Properties>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                               <Table columnCount="6" rowCount="1">
-                                <Column editable="true" title="&#x5b9e;&#x4f8b;ID/&#x4e3b;&#x673a;&#x540d;" type="java.lang.String"/>
-                                <Column editable="true" title="&#x72b6;&#x6001;" type="java.lang.String"/>
-                                <Column editable="true" title="&#x7c7b;&#x578b;" type="java.lang.String"/>
-                                <Column editable="true" title="&#x914d;&#x7f6e;" type="java.lang.String"/>
-                                <Column editable="true" title="IP&#x5730;&#x5740;" type="java.lang.String"/>
-                                <Column editable="true" title="&#x8ba1;&#x8d39;&#x6a21;&#x5f0f;" type="java.lang.String"/>
+                                <Column editable="false" title="&#x5b9e;&#x4f8b;ID/&#x4e3b;&#x673a;&#x540d;" type="java.lang.String"/>
+                                <Column editable="false" title="&#x72b6;&#x6001;" type="java.lang.String"/>
+                                <Column editable="false" title="&#x64cd;&#x4f5c;&#x7cfb;&#x7edf;" type="java.lang.String"/>
+                                <Column editable="false" title="&#x914d;&#x7f6e;" type="java.lang.String"/>
+                                <Column editable="false" title="IP&#x5730;&#x5740;" type="java.lang.String"/>
+                                <Column editable="false" title="&#x5230;&#x671f;&#x65e5;&#x671f;" type="java.lang.String"/>
                               </Table>
                             </Property>
                           </Properties>
@@ -215,12 +221,12 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="751" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="1019" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="492" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="551" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
