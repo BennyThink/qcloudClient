@@ -8,12 +8,12 @@ public class Demo {
 	public static void main(String[] args) {
 		/* 如果是循环调用下面举例的接口，需要从此处开始你的循环语句。切记！ */
 		TreeMap<String, Object> config = new TreeMap<String, Object>();
-		config.put("SecretId", "你的secretId");
-		config.put("SecretKey", "你的secretKey");
+		config.put("SecretId", "AKIDdZS8HJeC6pMuITAGC1gx8JK9B2ijqDi1");
+		config.put("SecretKey", "lQtCKI4e6bzBDWi1Cj9NPJ1XryymTC0i");
 		/* 请求方法类型 POST、GET */
 		config.put("RequestMethod", "GET");
 		/* 区域参数，可选: gz:广州; sh:上海; hk:香港; ca:北美;等。 */
-		config.put("DefaultRegion", "gz");
+		config.put("DefaultRegion", "bj");
 
 		/*
 		 * 你将要使用接口所在的模块，可以从 官网->云api文档->XXXX接口->接口描述->域名
