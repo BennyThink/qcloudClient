@@ -106,10 +106,18 @@
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jScrollPane1" min="-2" pref="843" max="-2" attributes="0"/>
+                                      <Component id="jScrollPane1" min="-2" pref="886" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
+                                      <Component id="power" min="-2" pref="64" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
+                                      <Component id="reboot" min="-2" pref="64" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="89" max="-2" attributes="0"/>
+                                      <Component id="reinstall" min="-2" pref="64" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="166" max="32767" attributes="0"/>
+                              <EmptySpace pref="123" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -117,17 +125,32 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="gz" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="sh" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="bj" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="hk" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="sg" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="ca" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="reboot" min="-2" pref="64" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="gz" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="sh" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="bj" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="hk" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="sg" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="ca" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="jScrollPane1" min="-2" pref="83" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <EmptySpace min="-2" pref="161" max="-2" attributes="0"/>
+                                              <Component id="power" min="-2" pref="64" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="reinstall" min="-2" pref="64" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                  </Group>
                               </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jScrollPane1" min="-2" pref="83" max="-2" attributes="0"/>
-                              <EmptySpace pref="398" max="32767" attributes="0"/>
+                              <EmptySpace pref="173" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -140,6 +163,9 @@
                         </Property>
                         <Property name="text" type="java.lang.String" value="&#x5e7f;&#x5dde;"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="gzMouseClicked"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JRadioButton" name="sh">
                       <Properties>
@@ -148,6 +174,9 @@
                         </Property>
                         <Property name="text" type="java.lang.String" value="&#x4e0a;&#x6d77;"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="shMouseClicked"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JRadioButton" name="bj">
                       <Properties>
@@ -167,6 +196,9 @@
                         </Property>
                         <Property name="text" type="java.lang.String" value="&#x9999;&#x6e2f;"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="hkMouseClicked"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JRadioButton" name="sg">
                       <Properties>
@@ -175,6 +207,9 @@
                         </Property>
                         <Property name="text" type="java.lang.String" value="&#x65b0;&#x52a0;&#x5761;"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="sgMouseClicked"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JRadioButton" name="ca">
                       <Properties>
@@ -183,6 +218,9 @@
                         </Property>
                         <Property name="text" type="java.lang.String" value="&#x5317;&#x7f8e;"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="caMouseClicked"/>
+                      </Events>
                     </Component>
                     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
                       <AuxValues>
@@ -194,19 +232,39 @@
                         <Component class="javax.swing.JTable" name="hostStatus">
                           <Properties>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                              <Table columnCount="6" rowCount="1">
-                                <Column editable="false" title="&#x5b9e;&#x4f8b;ID/&#x4e3b;&#x673a;&#x540d;" type="java.lang.String"/>
-                                <Column editable="false" title="&#x72b6;&#x6001;" type="java.lang.String"/>
-                                <Column editable="false" title="&#x64cd;&#x4f5c;&#x7cfb;&#x7edf;" type="java.lang.String"/>
-                                <Column editable="false" title="&#x914d;&#x7f6e;" type="java.lang.String"/>
-                                <Column editable="false" title="IP&#x5730;&#x5740;" type="java.lang.String"/>
-                                <Column editable="false" title="&#x5230;&#x671f;&#x65e5;&#x671f;" type="java.lang.String"/>
+                              <Table columnCount="7" rowCount="1">
+                                <Column editable="true" title="&#x5b9e;&#x4f8b;ID/&#x4e3b;&#x673a;&#x540d;" type="java.lang.String"/>
+                                <Column editable="true" title="&#x72b6;&#x6001;" type="java.lang.String"/>
+                                <Column editable="true" title="&#x64cd;&#x4f5c;&#x7cfb;&#x7edf;" type="java.lang.String"/>
+                                <Column editable="true" title="&#x914d;&#x7f6e;" type="java.lang.String"/>
+                                <Column editable="true" title="&#x78c1;&#x76d8;&#x7c7b;&#x578b;" type="java.lang.String"/>
+                                <Column editable="true" title="IP&#x5730;&#x5740;" type="java.lang.String"/>
+                                <Column editable="true" title="&#x5230;&#x671f;&#x65e5;&#x671f;" type="java.lang.String"/>
                               </Table>
                             </Property>
                           </Properties>
                         </Component>
                       </SubComponents>
                     </Container>
+                    <Component class="javax.swing.JButton" name="reboot">
+                      <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/com/benny/images/reboot.png"/>
+                        </Property>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="rebootMouseClicked"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="reinstall">
+                      <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/com/benny/images/reinstall.png"/>
+                        </Property>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JToggleButton" name="power">
+                    </Component>
                   </SubComponents>
                 </Container>
                 <Container class="javax.swing.JPanel" name="snapshot">

@@ -6,6 +6,7 @@ import com.qcloud.Utilities.Json.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -71,6 +72,9 @@ public class Console extends javax.swing.JFrame {
         ca = new javax.swing.JRadioButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         hostStatus = new javax.swing.JTable();
+        reboot = new javax.swing.JButton();
+        reinstall = new javax.swing.JButton();
+        power = new javax.swing.JToggleButton();
         snapshot = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -79,9 +83,19 @@ public class Console extends javax.swing.JFrame {
 
         buttonGroup1.add(gz);
         gz.setText("广州");
+        gz.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                gzMouseClicked(evt);
+            }
+        });
 
         buttonGroup1.add(sh);
         sh.setText("上海");
+        sh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                shMouseClicked(evt);
+            }
+        });
 
         buttonGroup1.add(bj);
         bj.setText("北京");
@@ -93,37 +107,54 @@ public class Console extends javax.swing.JFrame {
 
         buttonGroup1.add(hk);
         hk.setText("香港");
+        hk.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                hkMouseClicked(evt);
+            }
+        });
 
         buttonGroup1.add(sg);
         sg.setText("新加坡");
+        sg.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                sgMouseClicked(evt);
+            }
+        });
 
         buttonGroup1.add(ca);
         ca.setText("北美");
+        ca.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                caMouseClicked(evt);
+            }
+        });
 
         hostStatus.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "实例ID/主机名", "状态", "操作系统", "配置", "IP地址", "到期日期"
+                "实例ID/主机名", "状态", "操作系统", "配置", "磁盘类型", "IP地址", "到期日期"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
         });
         jScrollPane1.setViewportView(hostStatus);
+
+        reboot.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/benny/images/reboot.png"))); // NOI18N
+        reboot.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                rebootMouseClicked(evt);
+            }
+        });
+
+        reinstall.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/benny/images/reinstall.png"))); // NOI18N
 
         javax.swing.GroupLayout instanceLayout = new javax.swing.GroupLayout(instance);
         instance.setLayout(instanceLayout);
@@ -146,23 +177,40 @@ public class Console extends javax.swing.JFrame {
                         .addComponent(ca))
                     .addGroup(instanceLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 843, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(166, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 886, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(instanceLayout.createSequentialGroup()
+                        .addGap(53, 53, 53)
+                        .addComponent(power, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(78, 78, 78)
+                        .addComponent(reboot, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(89, 89, 89)
+                        .addComponent(reinstall, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(123, Short.MAX_VALUE))
         );
         instanceLayout.setVerticalGroup(
             instanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(instanceLayout.createSequentialGroup()
                 .addGap(29, 29, 29)
-                .addGroup(instanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(gz)
-                    .addComponent(sh)
-                    .addComponent(bj)
-                    .addComponent(hk)
-                    .addComponent(sg)
-                    .addComponent(ca))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(398, Short.MAX_VALUE))
+                .addGroup(instanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(reboot, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(instanceLayout.createSequentialGroup()
+                        .addGroup(instanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(gz)
+                            .addComponent(sh)
+                            .addComponent(bj)
+                            .addComponent(hk)
+                            .addComponent(sg)
+                            .addComponent(ca))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(instanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(instanceLayout.createSequentialGroup()
+                                .addGap(161, 161, 161)
+                                .addComponent(power, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, instanceLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(reinstall, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(173, Short.MAX_VALUE))
         );
 
         hostSet.addTab("实例", instance);
@@ -211,23 +259,17 @@ public class Console extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bjMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bjMouseClicked
-        // TODO add your handling code here:
-        //System.out.println("sda");
-        //获取北京节点的实例信息
-        //System.out.println(bj.getText());
-        //
-        util regionID=new util();
-        util getVal=new util();
-        
-        //2017年1月18日18:13:17
-        //核心问题在于如何处理JSON数组，SDK提供了JSON相关的几个类。
+    private void getInstance(String location){
+    ////
 
+        util regionID = new util();
+        util getVal = new util();
+        
 		TreeMap<String, Object> config = new TreeMap<String, Object>();
 		config.put("SecretId", sid);
 		config.put("SecretKey", skey);
 		config.put("RequestMethod", "GET");
-		config.put("DefaultRegion", regionID.getRegion(bj.getText()));
+		config.put("DefaultRegion", regionID.getRegion(location));
 		QcloudApiModuleCenter module = new QcloudApiModuleCenter(new Cvm(),
 				config);
 		TreeMap<String, Object> params = new TreeMap<String, Object>();
@@ -238,32 +280,82 @@ public class Console extends javax.swing.JFrame {
 		try {
 			result = module.call("DescribeInstances", params);
 			JSONObject json_result = new JSONObject(result);
-            //System.out.println(json_result);
-            
-            hostStatus.setValueAt(getVal.getIV(json_result, 0, "unInstanceId") + " "
+            //);
+            //成功获取到磁盘id和大小
+            //JSONObject ppp=new JSONObject();
+            //ppp=(JSONObject)json_result.getJSONArray("instanceSet").getJSONObject(0).get("diskInfo");
+            //System.out.println("here"+ppp.get("rootId")+ppp.get("rootType")+" "+ppp.get("rootSize"));
+      //
+            hostStatus.setValueAt(getVal.getIV(json_result, 0, "unInstanceId") + "•"
                 + getVal.getIV(json_result, 0, "instanceName"), 0, 0);
             hostStatus.setValueAt(getVal.getIV(json_result, 0, "status"), 0, 1);
             hostStatus.setValueAt(getVal.getIV(json_result, 0, "os"), 0, 2);
             hostStatus.setValueAt(getVal.getIV(json_result, 0, "cpu") + "核 "
                 + getVal.getIV(json_result, 0, "mem") + "G "
                 + getVal.getIV(json_result, 0, "bandwidth") + "Mbps", 0, 3);//配置
-
+            hostStatus.setValueAt(getVal.getIV(json_result, 0, "diskInfo"), 0, 4);//磁盘
             hostStatus.setValueAt(getVal.getIV(json_result, 0, "wanIpSet").replace('[', ' ').replace(']', ' ').replace('"', ' ').trim(),
-                0, 4);
-            hostStatus.setValueAt(getVal.getIV(json_result, 0, "deadlineTime"), 0, 5);
-            
-           
-            
+                0, 5);
+            hostStatus.setValueAt(getVal.getIV(json_result, 0, "deadlineTime"), 0, 6);
+                                  
 		} catch (Exception e) {
 			System.out.println("error..." + e.getMessage());
 		}
+    
+
+    ////
+    
+    }
+    
+    private void bjMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bjMouseClicked
+        // TODO add your handling code here:   
+        //2017年1月18日18:13:17
+        //目前只能处理一个(未使用循环）
+        //考虑代码重用 
         
-      
-        
-        
-        
+        getInstance(bj.getText());
         //////////
+        
+        
     }//GEN-LAST:event_bjMouseClicked
+
+    private void shMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_shMouseClicked
+        // TODO add your handling code here:
+        
+        getInstance(sh.getText());
+    }//GEN-LAST:event_shMouseClicked
+
+    private void gzMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gzMouseClicked
+        // TODO add your handling code here:
+        getInstance(gz.getText());
+    }//GEN-LAST:event_gzMouseClicked
+
+    private void hkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hkMouseClicked
+        // TODO add your handling code here:
+        getInstance(hk.getText());
+    }//GEN-LAST:event_hkMouseClicked
+
+    private void sgMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sgMouseClicked
+        // TODO add your handling code here:
+        getInstance(sg.getText());
+    }//GEN-LAST:event_sgMouseClicked
+
+    private void caMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_caMouseClicked
+        // TODO add your handling code here:
+        getInstance(ca.getText());
+    }//GEN-LAST:event_caMouseClicked
+
+    private void rebootMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rebootMouseClicked
+        // TODO add your handling code here:
+        //reboot
+        int op=JOptionPane.showConfirmDialog(rootPane, "确定要重启吗", "提示", JOptionPane.YES_NO_OPTION);
+        //点是返回0，否返回1，有悖常理啊
+        if(op==0)
+            System.out.println("重启");
+        else
+            System.out.println("已取消");
+        
+    }//GEN-LAST:event_rebootMouseClicked
 
     /**
      * @param args the command line arguments
@@ -312,6 +404,9 @@ public class Console extends javax.swing.JFrame {
     private javax.swing.JPanel instance;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JToggleButton power;
+    private javax.swing.JButton reboot;
+    private javax.swing.JButton reinstall;
     private javax.swing.JRadioButton sg;
     private javax.swing.JRadioButton sh;
     private javax.swing.JPanel snapshot;
