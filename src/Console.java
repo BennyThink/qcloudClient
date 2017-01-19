@@ -18,7 +18,8 @@ import java.util.TreeMap;
  * @author Benny~
  */
 public class Console extends javax.swing.JFrame {
-
+    //set var
+    private String sid,skey,name;
     /**
      * Creates new form Console
      */
@@ -26,8 +27,28 @@ public class Console extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         hostStatus.setRowHeight(40);
+        //初始化的时候变量还没过来
+        //hostTab.setTitleAt(0, name);
+        //System.out.println(name+"\n"+sid+"\n"+skey);
+    }
+    
+   
+    //ser var fun
+    /**
+     * 传递参数给login类
+     * @param s
+     *          服务器名字
+     * @param id
+     *          secretID
+     * @param key 
+     *          secretKey
+     */
+    public void setVar(String s,String id,String key){
+    name=s;sid=id;skey=key;
+    hostTab.setTitleAt(0, name);
         
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The content of this
@@ -203,8 +224,8 @@ public class Console extends javax.swing.JFrame {
         //核心问题在于如何处理JSON数组，SDK提供了JSON相关的几个类。
 
 		TreeMap<String, Object> config = new TreeMap<String, Object>();
-		config.put("SecretId", "AKIDdZS8HJeC6pMuITAGC1gx8JK9B2ijqDi1");
-		config.put("SecretKey", "lQtCKI4e6bzBDWi1Cj9NPJ1XryymTC0i");
+		config.put("SecretId", sid);
+		config.put("SecretKey", skey);
 		config.put("RequestMethod", "GET");
 		config.put("DefaultRegion", regionID.getRegion(bj.getText()));
 		QcloudApiModuleCenter module = new QcloudApiModuleCenter(new Cvm(),

@@ -21,14 +21,14 @@ import javax.swing.JOptionPane;
  * @author Benny~
  */
 public class Login extends javax.swing.JFrame {
-
+    private int type;
     /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
         setLocationRelativeTo(null);
-        
+        jButton2.setEnabled(false);
         ConfigReader reader = new ConfigReader("configuration.ini");
         List acquireName= reader.get("Sessions","name");
         List acquireComment= reader.get("Sessions","comment");
@@ -69,6 +69,11 @@ public class Login extends javax.swing.JFrame {
         jButton1.setText("删除");
 
         jButton2.setText("登录");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
 
         jButton3.setText("增加");
         jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -133,8 +138,8 @@ public class Login extends javax.swing.JFrame {
        
         hostDescription.setText("<html>名称： "+chooseHost.getSelectedValue() + "<br>"+
              "备注： "+ acquireComment.get(chooseHost.getSelectedIndex()).toString()+"</html>");
-        //设置登录按钮不可用
-        
+        type=chooseHost.getSelectedIndex();
+        //System.out.println(type);
 
 ///////////
         
@@ -189,6 +194,24 @@ public class Login extends javax.swing.JFrame {
         
 
     }//GEN-LAST:event_jButton3MouseClicked
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        // TODO add your handling code here:登录按钮
+        //要传递三个变量过去，名称，si，sk，
+        //读取文件，获得三个变量
+        ConfigReader reader = new ConfigReader("configuration.ini");
+        String acquireName= reader.get("Sessions","name").get(type);
+        String acquireSecretID= reader.get("Sessions","secretID").get(type);
+        String acquireSecretKey= reader.get("Sessions","secretKey").get(type);
+        //System.out.println(acquireName+"\n"+acquireSecretID+"\n"+acquireSecretKey);
+        //帅啊
+        Console start=new Console();
+        start.setVar(acquireName, acquireSecretID, acquireSecretKey);
+        start.setVisible(true);
+        this.setVisible(false);
+        
+        
+    }//GEN-LAST:event_jButton2MouseClicked
 
     /**
      * @param args the command line arguments
