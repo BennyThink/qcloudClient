@@ -49,6 +49,7 @@ public class ConfigReader {
             read(reader);
         } catch (IOException e) {
             e.printStackTrace();
+
             throw new RuntimeException("IO Exception:" + e);
         }
          
@@ -187,7 +188,7 @@ public class ConfigReader {
         try {
             out = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream("configuration.ini", true)));
-            out.write(toBeWriten + "\r\n");
+                out.write(toBeWriten + "\r\n");
             return true;
         } catch (Exception e) {
             e.printStackTrace();

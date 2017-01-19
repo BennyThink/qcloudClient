@@ -5,9 +5,12 @@
  */
 package com.benny.utilities;
 
+import com.qcloud.Module.Cvm;
+import com.qcloud.QcloudApiModuleCenter;
 import com.qcloud.Utilities.Json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  *
@@ -40,7 +43,7 @@ public class util {
      * @param statusNum
      *          代表运行状态的数字
      * @return 
-     *          运行状态
+     *          运行状态字符串
      */
     public String convertStatus(String statusNum) {
         customMap.clear();
@@ -120,5 +123,42 @@ public class util {
     
     }
     
+    /**
+     * 
+     * @param sid
+     *              secretID
+     * @param sk
+     *              SecretKey
+     * @param region
+     *              地区bj,gz,sh
+     * @param instanceID
+     *              实例ID
+     * @param Action
+     *              要进行的操作，RestartInstances
+     */
+    public void doInstance(String sid,String sk,String region,String instanceID,String Action){    
+
+		TreeMap<String, Object> config = new TreeMap<String, Object>();
+		config.put("SecretId", sid);
+		config.put("SecretKey", sk);
+		config.put("RequestMethod", "GET");
+		config.put("DefaultRegion", region);
+		QcloudApiModuleCenter module = new QcloudApiModuleCenter(new Cvm(),
+				config);
+		TreeMap<String, Object> params = new TreeMap<String, Object>();//instanceIds.0
+		params.put("instanceIds.0", instanceID);		
+		//System.out.println(module.generateUrl("RestartInstances", params));
+		String result = null;
+		try {
+			/* call 方法正式向指定的接口名发送请求，并把请求参数params传入，返回即是接口的请求结果。 */
+			result = module.call(Action, params);//RestartInstances
+			JSONObject json_result = new JSONObject(result);
+			System.out.println(json_result);
+		} catch (Exception e) {
+			System.out.println("error..." + e.getMessage());
+		}
+
+	
+    }
     
 }

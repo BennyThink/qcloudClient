@@ -1,13 +1,10 @@
 
 import com.benny.utilities.ConfigReader;
-import java.io.IOException;
+import java.awt.Toolkit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 /*
@@ -27,6 +24,7 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        //setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/com/benny/images/ico.png")));
         setLocationRelativeTo(null);
         jButton2.setEnabled(false);
         ConfigReader reader = new ConfigReader("configuration.ini");
@@ -57,6 +55,8 @@ public class Login extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("腾讯云客户端（非官方） By Benny");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/com/benny/images/ico.png")));
 
         chooseHost.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         chooseHost.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -132,7 +132,7 @@ public class Login extends javax.swing.JFrame {
             jButton2.setEnabled(false);
         else
              jButton2.setEnabled(true);
-        ConfigReader reader = new ConfigReader("configuration.ini");
+        ConfigReader reader = new ConfigReader("configuration.ini"); 
         List acquireComment = reader.get("Sessions", "comment");       
         //动态设置jLable
        
@@ -200,6 +200,7 @@ public class Login extends javax.swing.JFrame {
         //要传递三个变量过去，名称，si，sk，
         //读取文件，获得三个变量
         ConfigReader reader = new ConfigReader("configuration.ini");
+        
         String acquireName= reader.get("Sessions","name").get(type);
         String acquireSecretID= reader.get("Sessions","secretID").get(type);
         String acquireSecretKey= reader.get("Sessions","secretKey").get(type);

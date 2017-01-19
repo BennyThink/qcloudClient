@@ -3,9 +3,12 @@ import com.benny.utilities.util;
 import com.qcloud.Module.Cvm;
 import com.qcloud.QcloudApiModuleCenter;
 import com.qcloud.Utilities.Json.*;
+import java.awt.Toolkit;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /*
@@ -28,9 +31,7 @@ public class Console extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         hostStatus.setRowHeight(40);
-        //初始化的时候变量还没过来
-        //hostTab.setTitleAt(0, name);
-        //System.out.println(name+"\n"+sid+"\n"+skey);
+        reboot.setVisible(false);power.setVisible(false);
     }
     
    
@@ -47,6 +48,8 @@ public class Console extends javax.swing.JFrame {
     public void setVar(String s,String id,String key){
     name=s;sid=id;skey=key;
     hostTab.setTitleAt(0, name);
+    this.setTitle("控制台 - "+name+"");
+    //JFrame.setTitleAt(name);
         
     }
     
@@ -73,11 +76,13 @@ public class Console extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         hostStatus = new javax.swing.JTable();
         reboot = new javax.swing.JButton();
-        reinstall = new javax.swing.JButton();
-        power = new javax.swing.JToggleButton();
+        power = new javax.swing.JButton();
         snapshot = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/com/benny/images/ico.png")));
+
+        hostTab.setToolTipText("");
 
         hostSet.setTabPlacement(javax.swing.JTabbedPane.LEFT);
 
@@ -145,16 +150,26 @@ public class Console extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        hostStatus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                hostStatusMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(hostStatus);
 
         reboot.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/benny/images/reboot.png"))); // NOI18N
+        reboot.setToolTipText("重启");
         reboot.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 rebootMouseClicked(evt);
             }
         });
 
-        reinstall.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/benny/images/reinstall.png"))); // NOI18N
+        power.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                powerMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout instanceLayout = new javax.swing.GroupLayout(instance);
         instance.setLayout(instanceLayout);
@@ -179,38 +194,30 @@ public class Console extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 886, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(instanceLayout.createSequentialGroup()
-                        .addGap(53, 53, 53)
+                        .addGap(95, 95, 95)
                         .addComponent(power, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(78, 78, 78)
-                        .addComponent(reboot, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(89, 89, 89)
-                        .addComponent(reinstall, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(182, 182, 182)
+                        .addComponent(reboot, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(123, Short.MAX_VALUE))
         );
         instanceLayout.setVerticalGroup(
             instanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(instanceLayout.createSequentialGroup()
                 .addGap(29, 29, 29)
-                .addGroup(instanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(reboot, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(instanceLayout.createSequentialGroup()
-                        .addGroup(instanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(gz)
-                            .addComponent(sh)
-                            .addComponent(bj)
-                            .addComponent(hk)
-                            .addComponent(sg)
-                            .addComponent(ca))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(instanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(instanceLayout.createSequentialGroup()
-                                .addGap(161, 161, 161)
-                                .addComponent(power, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, instanceLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(reinstall, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(173, Short.MAX_VALUE))
+                .addGroup(instanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(gz)
+                    .addComponent(sh)
+                    .addComponent(bj)
+                    .addComponent(hk)
+                    .addComponent(sg)
+                    .addComponent(ca))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(184, 184, 184)
+                .addGroup(instanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(power, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(reboot, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(150, Short.MAX_VALUE))
         );
 
         hostSet.addTab("实例", instance);
@@ -259,9 +266,14 @@ public class Console extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * 
+     * @param location 
+     *              地区，中国文
+     */
     private void getInstance(String location){
-    ////
-
+    ////不应该酱紫
+    
         util regionID = new util();
         util getVal = new util();
         
@@ -281,12 +293,8 @@ public class Console extends javax.swing.JFrame {
 			result = module.call("DescribeInstances", params);
 			JSONObject json_result = new JSONObject(result);
             //);
-            //成功获取到磁盘id和大小
-            //JSONObject ppp=new JSONObject();
-            //ppp=(JSONObject)json_result.getJSONArray("instanceSet").getJSONObject(0).get("diskInfo");
-            //System.out.println("here"+ppp.get("rootId")+ppp.get("rootType")+" "+ppp.get("rootSize"));
-      //
-            hostStatus.setValueAt(getVal.getIV(json_result, 0, "unInstanceId") + "•"
+            
+            hostStatus.setValueAt(getVal.getIV(json_result, 0, "unInstanceId") + " "
                 + getVal.getIV(json_result, 0, "instanceName"), 0, 0);
             hostStatus.setValueAt(getVal.getIV(json_result, 0, "status"), 0, 1);
             hostStatus.setValueAt(getVal.getIV(json_result, 0, "os"), 0, 2);
@@ -301,27 +309,43 @@ public class Console extends javax.swing.JFrame {
 		} catch (Exception e) {
 			System.out.println("error..." + e.getMessage());
 		}
-    
 
-    ////
     
+    }
+    
+    private void actOnOrder(String action){
+            String rg = null;
+            if (gz.isSelected()) 
+                rg = "gz";           
+            if (sh.isSelected()) 
+                rg = "sh";            
+            if (bj.isSelected()) 
+                rg = "bj";          
+            if (hk.isSelected()) 
+                rg = "hk";          
+            if (sg.isSelected()) 
+                rg = "sg";          
+            if (ca.isSelected()) 
+                rg = "ca";          
+            util instanceOP = new util();
+            String selInstanceID = hostStatus.getValueAt(hostStatus.getSelectedRow(), 0).toString().substring(0, 12);
+            instanceOP.doInstance(sid, skey, rg, selInstanceID,action); //传递action  
+            JOptionPane.showMessageDialog(rootPane, "指令已发出", "提示", JOptionPane.INFORMATION_MESSAGE);
+            //设置其他按钮为不可用
+            reboot.setEnabled(false);power.setEnabled(false);////end
+        
     }
     
     private void bjMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bjMouseClicked
         // TODO add your handling code here:   
-        //2017年1月18日18:13:17
         //目前只能处理一个(未使用循环）
-        //考虑代码重用 
-        
-        getInstance(bj.getText());
-        //////////
-        
+        //考虑代码重用        
+        getInstance(bj.getText());       
         
     }//GEN-LAST:event_bjMouseClicked
 
     private void shMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_shMouseClicked
-        // TODO add your handling code here:
-        
+        // TODO add your handling code here:       
         getInstance(sh.getText());
     }//GEN-LAST:event_shMouseClicked
 
@@ -347,15 +371,61 @@ public class Console extends javax.swing.JFrame {
 
     private void rebootMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rebootMouseClicked
         // TODO add your handling code here:
-        //reboot
+        //如果未选中，结果是-1；否则是0,1,2,3,4...
+        if(hostStatus.getSelectedRow()==-1)
+        {
+            JOptionPane.showMessageDialog(rootPane, "未选择服务器", "提示", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         int op=JOptionPane.showConfirmDialog(rootPane, "确定要重启吗", "提示", JOptionPane.YES_NO_OPTION);
-        //点是返回0，否返回1，有悖常理啊
+        //点是返回0，否返回1，有悖常理啊      
         if(op==0)
-            System.out.println("重启");
+           actOnOrder("RestartInstances");
         else
-            System.out.println("已取消");
+            JOptionPane.showMessageDialog(rootPane, "操作已取消", "提示", JOptionPane.INFORMATION_MESSAGE);
+        /////////over
         
     }//GEN-LAST:event_rebootMouseClicked
+
+    private void hostStatusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hostStatusMouseClicked
+        // TODO add your handling code here:显示三个控制按钮
+        //让它犯难
+        //hostStatus.setValueAt("蓝瘦香菇", 0, 1);
+        if(hostStatus.getValueAt(0, 0)!=null)
+        {reboot.setVisible(true);power.setVisible(true);}
+        if(hostStatus.getValueAt(hostStatus.getSelectedRow(),1)=="运行中")
+        { 
+        power.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/benny/images/poweroff.png")));
+        power.setToolTipText("关机");
+        }
+        else if(hostStatus.getValueAt(hostStatus.getSelectedRow(),1)=="已关机")
+        {
+        power.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/benny/images/poweron.png")));
+        power.setToolTipText("开机");
+        reboot.setVisible(false);
+        }
+        else
+        {
+        power.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/benny/images/unknow.png")));
+        power.setToolTipText("嗷呜等等吧");
+        power.setEnabled(false);
+        reboot.setEnabled(false);
+        }
+    }//GEN-LAST:event_hostStatusMouseClicked
+
+    private void powerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_powerMouseClicked
+        // TODO add your handling code here:执行关机或者重启任务
+        int op=JOptionPane.showConfirmDialog(rootPane, "确定要"+power.getToolTipText()+"吗", "提示", JOptionPane.OK_OPTION);
+        if(power.getToolTipText()=="开机" && op==0)
+            actOnOrder("StartInstances");
+        else if(power.getToolTipText()=="关机" && op==0)
+            actOnOrder("StopInstances");
+        else if(power.getToolTipText()=="嗷呜等等吧" && op==0)
+            JOptionPane.showMessageDialog(rootPane, "叫你等，你还点，哼", "哼", JOptionPane.WARNING_MESSAGE);
+        else
+            System.out.println("操作已取消");
+        
+    }//GEN-LAST:event_powerMouseClicked
 
     /**
      * @param args the command line arguments
@@ -404,9 +474,8 @@ public class Console extends javax.swing.JFrame {
     private javax.swing.JPanel instance;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JToggleButton power;
+    private javax.swing.JButton power;
     private javax.swing.JButton reboot;
-    private javax.swing.JButton reinstall;
     private javax.swing.JRadioButton sg;
     private javax.swing.JRadioButton sh;
     private javax.swing.JPanel snapshot;
