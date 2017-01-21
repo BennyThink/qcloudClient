@@ -12,6 +12,7 @@ import com.qcloud.Utilities.Json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -36,7 +37,7 @@ public class util {
     public String convertStatus(String statusNum) {
         customMap.clear();
         //put status
-        customMap.put("1", "鼓掌");
+        customMap.put("1", "故障");
         customMap.put("2", "运行中");
         customMap.put("3", "创建中");
         customMap.put("4", "已关机");
@@ -111,7 +112,23 @@ public class util {
     }
     
     
+    public String getSV(JSONObject obj,int loc,String key){
+        //实例ID和硬盘ID
+        String str=obj.getJSONArray("snapshotSet").getJSONObject(loc).get(key).toString();
+        
+        if("snapshotName".equals(key) &&"".equals(str) )
+            return "未命名";       
+        else if("snapshotStatus".equals(key)&&"normal".equals(str))
+            return "已创建";       
+        else if("snapshotStatus".equals(key)&&"creating".equals(str))
+            return "创建中";
+        else if("snapshotStatus".equals(key)&&"rollbacking".equals(str))
+            return "回滚中";
+        else
+            return obj.getJSONArray("snapshotSet").getJSONObject(loc).get(key).toString();
+        
     
+    }
     
     
     
@@ -157,7 +174,7 @@ public class util {
         {params.put("offset", 0);
         params.put("limit", 3);}
         else
-            params.put("instanceIds.0", instanceID);
+            params.put("instanceIds.0", instanceID);//可能有坑
 	    
         /* generateUrl 方法生成请求串，但不发送请求。在正式请求中，可以删除下面这行代码。 */
         //System.out.println(module.generateUrl(Action, params));
@@ -168,6 +185,77 @@ public class util {
 			json_result = new JSONObject(result);
 			//System.out.println(json_result);//原始响应，需要将其处理      
            
+		} catch (Exception e) {
+			System.out.println("error..." + e.getMessage());
+		}
+
+            return json_result;
+     
+    }
+    
+    /**
+     * 
+     * @param uAuth
+     *              id、key
+     * @param region
+     *              地区，广州，可为null
+     * @param diskID
+     *              磁盘ID
+     * @param Action
+     *              执行的操作, i.e.DescribeSnapshots
+     * @return 
+     */
+    
+    public JSONObject doSnapshot(Map uAuth,String region,String diskID,String Action,String Name){    
+        //
+        if(region=="广州")
+            region="gz";
+        else if(region=="上海")
+            region="sh";
+        else if(region=="北京")
+            region="bj";
+        else if(region=="香港")
+            region="hk";
+        else if(region=="新加坡")
+            region="sg";
+        else if(region=="北美")
+            region="ca";
+                   
+		TreeMap<String, Object> config = new TreeMap<String, Object>();
+		config.put("SecretId", uAuth.get("secretId"));
+		config.put("SecretKey", uAuth.get("secretKey"));
+		config.put("RequestMethod", "GET");
+		config.put("DefaultRegion", region);
+		QcloudApiModuleCenter module = new QcloudApiModuleCenter(new Snapshot(),
+				config);
+		TreeMap<String, Object> params = new TreeMap<String, Object>();//instanceIds.0
+        if(Action=="DescribeSnapshots")
+            params.put("limits", 3);
+        if(Action=="DeleteSnapshot")
+            params.put("snapshotIds.0", diskID);
+        
+        if(Action=="ApplySnapshot")//两参数
+        {params.put("storageId", diskID);
+        params.put("snapshotId", Name);
+        System.out.println("已调用还原 "+params);
+        }
+        
+        if(Name==null && Action=="CreateSnapshot")
+            params.put("storageId", diskID);
+        
+       if(Name!=null && Action=="CreateSnapshot")
+       {params.put("storageId", diskID);
+        params.put("snapshotName", Name);    }
+       
+        /* generateUrl 方法生成请求串，但不发送请求。在正式请求中，可以删除下面这行代码。 */
+       //System.out.println(module.generateUrl(Action,params));
+		String result = null;
+		try {
+			/* call 方法正式向指定的接口名发送请求，并把请求参数params传入，返回即是接口的请求结果。 */
+			result = module.call(Action, params);//RestartInstances
+			json_result = new JSONObject(result);
+			//System.out.println(json_result);//原始响应，需要将其处理      
+            
 		} catch (Exception e) {
 			System.out.println("error..." + e.getMessage());
 		}
