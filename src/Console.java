@@ -1,14 +1,9 @@
 
 import com.benny.utilities.util;
-import com.qcloud.Module.Cvm;
-import com.qcloud.QcloudApiModuleCenter;
 import com.qcloud.Utilities.Json.*;
 import java.awt.Toolkit;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /*
@@ -23,21 +18,29 @@ import javax.swing.JOptionPane;
  */
 public class Console extends javax.swing.JFrame {
     //set var
-    private String sid,skey,name;
-    /**
+    private String cName,cDiskID,cInstanceID,cRegion; 
+    private JSONObject json=new JSONObject();
+    private Map cAuth=new HashMap();
+    private final util rebuild=new util();
+        /**
      * Creates new form Console
      */
     public Console() {
         initComponents();
         setLocationRelativeTo(null);
         hostStatus.setRowHeight(40);
-        reboot.setVisible(false);power.setVisible(false);
+        snapshotList.setRowHeight(40);
+        reboot.setVisible(false);
+        power.setVisible(false);
+
+        
+        //
     }
     
    
     //ser var fun
     /**
-     * 传递参数给login类
+     * 设置成员变量给Console
      * @param s
      *          服务器名字
      * @param id
@@ -46,10 +49,11 @@ public class Console extends javax.swing.JFrame {
      *          secretKey
      */
     public void setVar(String s,String id,String key){
-    name=s;sid=id;skey=key;
-    hostTab.setTitleAt(0, name);
-    this.setTitle("控制台 - "+name+"");
-    //JFrame.setTitleAt(name);
+    cAuth.put("secretId", id);
+    cAuth.put("secretKey", key);
+    cName=s;
+    hostTab.setTitleAt(0, cName);
+    this.setTitle("控制台 - "+cName+"");
         
     }
     
@@ -78,6 +82,11 @@ public class Console extends javax.swing.JFrame {
         reboot = new javax.swing.JButton();
         power = new javax.swing.JButton();
         snapshot = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        snapshotList = new javax.swing.JTable();
+        create = new javax.swing.JButton();
+        delete = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/com/benny/images/ico.png")));
@@ -85,6 +94,11 @@ public class Console extends javax.swing.JFrame {
         hostTab.setToolTipText("");
 
         hostSet.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+        hostSet.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                hostSetMouseClicked(evt);
+            }
+        });
 
         buttonGroup1.add(gz);
         gz.setText("广州");
@@ -222,15 +236,61 @@ public class Console extends javax.swing.JFrame {
 
         hostSet.addTab("实例", instance);
 
+        snapshotList.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "id", "名称", "状态", "创建百分比", "创建时间"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(snapshotList);
+
+        create.setToolTipText("创建快照");
+
+        delete.setToolTipText("删除快照");
+
+        jButton1.setToolTipText("回滚快照");
+
         javax.swing.GroupLayout snapshotLayout = new javax.swing.GroupLayout(snapshot);
         snapshot.setLayout(snapshotLayout);
         snapshotLayout.setHorizontalGroup(
             snapshotLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1019, Short.MAX_VALUE)
+            .addGroup(snapshotLayout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 816, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(146, Short.MAX_VALUE))
+            .addGroup(snapshotLayout.createSequentialGroup()
+                .addGap(151, 151, 151)
+                .addComponent(create, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(157, 157, 157)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(354, 354, 354))
         );
         snapshotLayout.setVerticalGroup(
             snapshotLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 551, Short.MAX_VALUE)
+            .addGroup(snapshotLayout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(116, 116, 116)
+                .addGroup(snapshotLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(create, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(186, Short.MAX_VALUE))
         );
 
         hostSet.addTab("快照", snapshot);
@@ -268,53 +328,45 @@ public class Console extends javax.swing.JFrame {
 
     /**
      * 
-     * @param location 
-     *              地区，中国文
+     * @param json
+     *              接受json参数
+     * @param loc 
+     *              行数
      */
-    private void getInstance(String location){
-    ////不应该酱紫
-    
-        util regionID = new util();
-        util getVal = new util();
+    private void setHostStatus(JSONObject json,int loc){
+   
+    //这里要顺路取得对应的磁盘id，存储起来。
+    ///////得到了查询的结果，然后再次调用util的方法getIV      
+        //util rebuild = new util();
+        //System.out.println("debug here "+trueValue.getIV(json, loc, "cpu"));
+        //处理json，及时return
+        //System.out.println("数量为0就return"+json.get("totalCount"));
         
-		TreeMap<String, Object> config = new TreeMap<String, Object>();
-		config.put("SecretId", sid);
-		config.put("SecretKey", skey);
-		config.put("RequestMethod", "GET");
-		config.put("DefaultRegion", regionID.getRegion(location));
-		QcloudApiModuleCenter module = new QcloudApiModuleCenter(new Cvm(),
-				config);
-		TreeMap<String, Object> params = new TreeMap<String, Object>();
-		params.put("offset", 0);
-		params.put("limit", 3);
-	
-		String result = null;
-		try {
-			result = module.call("DescribeInstances", params);
-			JSONObject json_result = new JSONObject(result);
-            //);
-            
-            hostStatus.setValueAt(getVal.getIV(json_result, 0, "unInstanceId") + " "
-                + getVal.getIV(json_result, 0, "instanceName"), 0, 0);
-            hostStatus.setValueAt(getVal.getIV(json_result, 0, "status"), 0, 1);
-            hostStatus.setValueAt(getVal.getIV(json_result, 0, "os"), 0, 2);
-            hostStatus.setValueAt(getVal.getIV(json_result, 0, "cpu") + "核 "
-                + getVal.getIV(json_result, 0, "mem") + "G "
-                + getVal.getIV(json_result, 0, "bandwidth") + "Mbps", 0, 3);//配置
-            hostStatus.setValueAt(getVal.getIV(json_result, 0, "diskInfo"), 0, 4);//磁盘
-            hostStatus.setValueAt(getVal.getIV(json_result, 0, "wanIpSet").replace('[', ' ').replace(']', ' ').replace('"', ' ').trim(),
-                0, 5);
-            hostStatus.setValueAt(getVal.getIV(json_result, 0, "deadlineTime"), 0, 6);
-                                  
-		} catch (Exception e) {
-			System.out.println("error..." + e.getMessage());
-		}
+        if("0".equals(json.get("totalCount").toString()))
+        {JOptionPane.showMessageDialog(rootPane, "在 *"+cRegion+"* 未查询到服务器", "提示", JOptionPane.INFORMATION_MESSAGE);
+        return;}
+        else
+            System.out.println("至少不会抛异常了");
+        
+        hostStatus.setValueAt(rebuild.getIV(json, loc, "unInstanceId")+" "+rebuild.getIV(json, loc, "instanceName"), loc, 0);
+        hostStatus.setValueAt(rebuild.getIV(json, loc, "status"), loc, 1);
+        hostStatus.setValueAt(rebuild.getIV(json, loc, "os"), loc, 2);
+        hostStatus.setValueAt(rebuild.getIV(json, loc, "cpu") + "核 "
+                              + rebuild.getIV(json, loc, "mem")+ "G "
+                              + rebuild.getIV(json, loc, "bandwidth")+ "Mbps ", loc, 3);
+        hostStatus.setValueAt(rebuild.getIV(json, loc, "diskInfo"), loc, 4);
+        hostStatus.setValueAt(rebuild.getIV(json, loc, "wanIpSet").replace('[', ' ').replace(']', ' ').replace('"', ' ').trim(), 
+            loc, 5);
+        hostStatus.setValueAt(rebuild.getIV(json, loc, "deadlineTime"), loc, 6);
 
-    
     }
-    
+    /**
+     * 
+     * @param action 
+     *              要进行的操作名，i.e. DescribeInstances
+     */
     private void actOnOrder(String action){
-            String rg = null;
+             String rg = null;
             if (gz.isSelected()) 
                 rg = "gz";           
             if (sh.isSelected()) 
@@ -326,10 +378,9 @@ public class Console extends javax.swing.JFrame {
             if (sg.isSelected()) 
                 rg = "sg";          
             if (ca.isSelected()) 
-                rg = "ca";          
-            util instanceOP = new util();
-            String selInstanceID = hostStatus.getValueAt(hostStatus.getSelectedRow(), 0).toString().substring(0, 12);
-            instanceOP.doInstance(sid, skey, rg, selInstanceID,action); //传递action  
+                rg = "ca";        
+            cInstanceID = hostStatus.getValueAt(hostStatus.getSelectedRow(), 0).toString().substring(0, 12);
+            rebuild.doInstance(cAuth, rg, cInstanceID,action); //传递action  
             JOptionPane.showMessageDialog(rootPane, "指令已发出", "提示", JOptionPane.INFORMATION_MESSAGE);
             //设置其他按钮为不可用
             reboot.setEnabled(false);power.setEnabled(false);////end
@@ -339,34 +390,52 @@ public class Console extends javax.swing.JFrame {
     private void bjMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bjMouseClicked
         // TODO add your handling code here:   
         //目前只能处理一个(未使用循环）
-        //考虑代码重用        
-        getInstance(bj.getText());       
+        //考虑代码重用    cRegion 北京      
+        rebuild.doInstance(cAuth, bj.getText(),null, "DescribeInstances");        
+        json=rebuild.json_result;
+        cRegion="北京";
+        setHostStatus(json,0);
         
     }//GEN-LAST:event_bjMouseClicked
 
     private void shMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_shMouseClicked
         // TODO add your handling code here:       
-        getInstance(sh.getText());
+        rebuild.doInstance(cAuth, sh.getText(), null, "DescribeInstances");        
+        json=rebuild.json_result;
+        cRegion="上海";
+        setHostStatus(json,0);
     }//GEN-LAST:event_shMouseClicked
 
     private void gzMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gzMouseClicked
         // TODO add your handling code here:
-        getInstance(gz.getText());
+        rebuild.doInstance(cAuth, gz.getText(), null, "DescribeInstances");        
+        json=rebuild.json_result;
+        cRegion="广州";
+        setHostStatus(json,0);
     }//GEN-LAST:event_gzMouseClicked
 
     private void hkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hkMouseClicked
         // TODO add your handling code here:
-        getInstance(hk.getText());
+        rebuild.doInstance(cAuth, hk.getText(), null, "DescribeInstances");        
+        json=rebuild.json_result;
+        cRegion="香港";
+        setHostStatus(json,0);
     }//GEN-LAST:event_hkMouseClicked
 
     private void sgMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sgMouseClicked
         // TODO add your handling code here:
-        getInstance(sg.getText());
+        rebuild.doInstance(cAuth, sg.getText(), null, "DescribeInstances");        
+        json=rebuild.json_result;
+        cRegion="新加坡";
+        setHostStatus(json,0);
     }//GEN-LAST:event_sgMouseClicked
 
     private void caMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_caMouseClicked
         // TODO add your handling code here:
-        getInstance(ca.getText());
+        rebuild.doInstance(cAuth, ca.getText(), null, "DescribeInstances");        
+        json=rebuild.json_result;
+        cRegion="北美";
+        setHostStatus(json,0);
     }//GEN-LAST:event_caMouseClicked
 
     private void rebootMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rebootMouseClicked
@@ -391,8 +460,11 @@ public class Console extends javax.swing.JFrame {
         // TODO add your handling code here:显示三个控制按钮
         //让它犯难
         //hostStatus.setValueAt("蓝瘦香菇", 0, 1);
-        if(hostStatus.getValueAt(0, 0)!=null)
-        {reboot.setVisible(true);power.setVisible(true);}
+        if(hostStatus.getValueAt(hostStatus.getSelectedRow(), 0)!=null)
+        {reboot.setVisible(true);power.setVisible(true);cDiskID=rebuild.uDiskID;
+        //System.out.println("点击表格看diskID,console private "+cDiskID);
+        }
+        
         if(hostStatus.getValueAt(hostStatus.getSelectedRow(),1)=="运行中")
         { 
         power.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/benny/images/poweroff.png")));
@@ -426,6 +498,18 @@ public class Console extends javax.swing.JFrame {
             System.out.println("操作已取消");
         
     }//GEN-LAST:event_powerMouseClicked
+
+    private void hostSetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hostSetMouseClicked
+        // TODO add your handling code here:获取快照信息.
+        
+        if(cDiskID==null &&hostSet.getSelectedIndex()==1)
+        {JOptionPane.showMessageDialog(rootPane, "未选择主机", "提示", JOptionPane.INFORMATION_MESSAGE);
+        hostSet.setSelectedIndex(0);
+        return;} 
+        else
+            System.out.println("点击表格之后获得的diskID"+cDiskID);
+        
+    }//GEN-LAST:event_hostSetMouseClicked
 
     /**
      * @param args the command line arguments
@@ -466,18 +550,23 @@ public class Console extends javax.swing.JFrame {
     private javax.swing.JRadioButton bj;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JRadioButton ca;
+    private javax.swing.JButton create;
+    private javax.swing.JButton delete;
     private javax.swing.JRadioButton gz;
     private javax.swing.JRadioButton hk;
     private javax.swing.JTabbedPane hostSet;
     private javax.swing.JTable hostStatus;
     private javax.swing.JTabbedPane hostTab;
     private javax.swing.JPanel instance;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton power;
     private javax.swing.JButton reboot;
     private javax.swing.JRadioButton sg;
     private javax.swing.JRadioButton sh;
     private javax.swing.JPanel snapshot;
+    private javax.swing.JTable snapshotList;
     // End of variables declaration//GEN-END:variables
 }

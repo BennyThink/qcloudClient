@@ -1,7 +1,7 @@
 import java.util.TreeMap;
 
 import com.qcloud.QcloudApiModuleCenter;
-import com.qcloud.Module.Cvm;
+import com.qcloud.Module.*;
 import com.qcloud.Utilities.Json.JSONObject;
 
 public class Demo {
@@ -23,21 +23,21 @@ public class Demo {
 		 * 示例：DescribeInstances
 		 * 的api文档地址：http://www.qcloud.com/wiki/v2/DescribeInstances
 		 */
-		QcloudApiModuleCenter module = new QcloudApiModuleCenter(new Cvm(),
+		QcloudApiModuleCenter module = new QcloudApiModuleCenter(new Snapshot(),
 				config);
 
 		TreeMap<String, Object> params = new TreeMap<String, Object>();
 		/* 将需要输入的参数都放入 params 里面，必选参数是必填的。 */
 		/* DescribeInstances 接口的部分可选参数如下 */
 		//params.put("offset", 0);
-		params.put("instanceIds.0", "ins-jfqq4kar");
-		
+		//params.put("instanceIds.0", "ins-jfqq4kar");
+		params.put("limit", 10);
 		/* generateUrl方法生成请求串,可用于调试使用 */
-		System.out.println(module.generateUrl("RestartInstances", params));
+		System.out.println(module.generateUrl("DescribeSnapshots", params));
 		String result = null;
 		try {
 			/* call 方法正式向指定的接口名发送请求，并把请求参数params传入，返回即是接口的请求结果。 */
-			result = module.call("RestartInstances", params);
+			result = module.call("DescribeSnapshots", params);
 			JSONObject json_result = new JSONObject(result);
 			System.out.println(json_result);
 		} catch (Exception e) {

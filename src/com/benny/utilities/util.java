@@ -6,6 +6,7 @@
 package com.benny.utilities;
 
 import com.qcloud.Module.Cvm;
+import com.qcloud.Module.Snapshot;
 import com.qcloud.QcloudApiModuleCenter;
 import com.qcloud.Utilities.Json.JSONObject;
 import java.util.HashMap;
@@ -19,25 +20,12 @@ import java.util.TreeMap;
 public class util {
     //定义一些可能会用到的变量
     private Map customMap=new HashMap();
-    String instanceID;
-    String diskID;
-   JSONObject diskInfo=new JSONObject();
-    /**
-     * 节点中文转英文
-     * @param text
-     * @return String
-     */
-    public String getRegion(String text)
-    {   customMap.clear();
-        customMap.put("广州","gz");
-        customMap.put("上海","sh");
-        customMap.put("北京","bj");
-        customMap.put("香港","hk");
-        customMap.put("新加坡","sg");
-        customMap.put("北美","ca");
-        return customMap.get(text).toString();
+    public String uDiskID;
+    private JSONObject uDiskInfo=new JSONObject();
+    public JSONObject json_result=new JSONObject();
     
-    }
+   
+  
     /**
      * 转换数字参数为运行状态
      * @param statusNum
@@ -99,66 +87,98 @@ public class util {
      * @param obj
      *              A JSONObject
      * @param loc
-     *              Numbers of your instance, start from 0
+     *              实例数量，从0开始计数
      * @param key 
-     *              Specified key
-     * @return selected value
+     *              特定键
+     * @return 指定值
      */
     public String getIV(JSONObject obj,int loc,String key){
         //实例ID和硬盘ID
-        //System.out.println(obj.getJSONArray("instanceSet").getJSONObject(loc).get("unInstanceId").toString());
+        uDiskInfo=(JSONObject)obj.getJSONArray("instanceSet").getJSONObject(loc).get("diskInfo");
+        uDiskID=uDiskInfo.get("rootId").toString();
+        //System.out.println("输出diskID，请进行测试，存储在util的变量中"+uDiskID);
         
         if("status".equals(key))    
             return convertStatus(obj.getJSONArray("instanceSet").getJSONObject(loc).get(key).toString());          
         else if("diskInfo".equals(key)) //硬盘 
-        {   diskInfo=(JSONObject)obj.getJSONArray("instanceSet").getJSONObject(loc).get("diskInfo");
-        return convertStatus(diskInfo.get("rootType"))+diskInfo.get("rootSize")+"G";     
+        {   uDiskInfo=(JSONObject)obj.getJSONArray("instanceSet").getJSONObject(loc).get("diskInfo");
+        return convertStatus(uDiskInfo.get("rootType"))+uDiskInfo.get("rootSize")+"G";     
         }
         else
         return obj.getJSONArray("instanceSet").getJSONObject(loc).get(key).toString();
-      
-    
-  
-    
+        
     
     }
     
+    
+    
+    
+    
+    
+    
+    
+    
     /**
      * 
-     * @param sid
-     *              secretID
-     * @param sk
-     *              SecretKey
+     * @param uAuth
+     *              secretID和secretKey
      * @param region
-     *              地区bj,gz,sh
+     *              地区，北京，上海，广州...
      * @param instanceID
-     *              实例ID
+     *              实例ID，可传递null
      * @param Action
      *              要进行的操作，RestartInstances
+     * @return 从API返回的查询结果
      */
-    public void doInstance(String sid,String sk,String region,String instanceID,String Action){    
-
+    public JSONObject doInstance(Map uAuth,String region,String instanceID,String Action){    
+        //首先转换region为简写 public void doInstance(Map uAuth,String region,String instanceID,String Action)
+        if(region=="广州")
+            region="gz";
+        else if(region=="上海")
+            region="sh";
+        else if(region=="北京")
+            region="bj";
+        else if(region=="香港")
+            region="hk";
+        else if(region=="新加坡")
+            region="sg";
+        else if(region=="北美")
+            region="ca";
+                   
 		TreeMap<String, Object> config = new TreeMap<String, Object>();
-		config.put("SecretId", sid);
-		config.put("SecretKey", sk);
+		config.put("SecretId", uAuth.get("secretId"));
+		config.put("SecretKey", uAuth.get("secretKey"));
 		config.put("RequestMethod", "GET");
 		config.put("DefaultRegion", region);
 		QcloudApiModuleCenter module = new QcloudApiModuleCenter(new Cvm(),
 				config);
 		TreeMap<String, Object> params = new TreeMap<String, Object>();//instanceIds.0
-		params.put("instanceIds.0", instanceID);		
-		//System.out.println(module.generateUrl("RestartInstances", params));
+        if(instanceID==null)
+        {params.put("offset", 0);
+        params.put("limit", 3);}
+        else
+            params.put("instanceIds.0", instanceID);
+	    
+        /* generateUrl 方法生成请求串，但不发送请求。在正式请求中，可以删除下面这行代码。 */
+        //System.out.println(module.generateUrl(Action, params));
 		String result = null;
 		try {
 			/* call 方法正式向指定的接口名发送请求，并把请求参数params传入，返回即是接口的请求结果。 */
 			result = module.call(Action, params);//RestartInstances
-			JSONObject json_result = new JSONObject(result);
-			System.out.println(json_result);
+			json_result = new JSONObject(result);
+			//System.out.println(json_result);//原始响应，需要将其处理      
+           
 		} catch (Exception e) {
 			System.out.println("error..." + e.getMessage());
 		}
 
-	
+            return json_result;
+     
     }
+    
+    
+   
+           
+    
     
 }
