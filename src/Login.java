@@ -33,7 +33,6 @@ public class Login extends javax.swing.JFrame {
         DefaultListModel listModel = new DefaultListModel();
         chooseHost.setModel(listModel);
         for(int i=0;i<acquireName.size();i++)
-            //动态设置jList
             listModel.addElement(acquireName.get(i).toString());
         
         
@@ -50,13 +49,14 @@ public class Login extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         chooseHost = new javax.swing.JList<>();
         hostDescription = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("腾讯云客户端（非官方） By Benny");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/com/benny/images/ico.png")));
+        setResizable(false);
+        setType(java.awt.Window.Type.UTILITY);
 
         chooseHost.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         chooseHost.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -65,8 +65,6 @@ public class Login extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(chooseHost);
-
-        jButton1.setText("删除");
 
         jButton2.setText("登录");
         jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -91,16 +89,13 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addComponent(jButton1)
-                        .addGap(70, 70, 70)
-                        .addComponent(jButton2))
+                        .addGap(63, 63, 63)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(68, 68, 68)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(82, 82, 82)
-                        .addComponent(hostDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(108, 108, 108)
-                        .addComponent(jButton3)))
+                        .addComponent(hostDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(110, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -112,22 +107,19 @@ public class Login extends javax.swing.JFrame {
                         .addComponent(hostDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2))
-                        .addGap(32, 32, 32)
-                        .addComponent(jButton3))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(43, Short.MAX_VALUE))
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(43, Short.MAX_VALUE))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void chooseHostMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_chooseHostMouseClicked
-        // TODO add your handling code here:
-        //默认配置代码,从0开始计数
-        //System.out.println(chooseHost.getMaxSelectionIndex());
-        //System.out.println(chooseHost.getSelectedValue()+chooseHost.getSelectedIndex());
+       
         if ("默认站点".equals(chooseHost.getSelectedValue())) 
             jButton2.setEnabled(false);
         else
@@ -172,8 +164,7 @@ public class Login extends javax.swing.JFrame {
         } else 
             inputComment = JOptionPane.showInputDialog(null, "输入备注（可选）", "建立配置文件 - 4/4", JOptionPane.INFORMATION_MESSAGE);
         
-        //      
-        //System.out.println(inputName+"\n"+inputSecretID+"\n"+inputSecretKey+"\n"+inputComment);
+
         //配置文件存储在这四个变量中，将其写入。使用ConfigReader类。
         ConfigReader writeConfig=new ConfigReader("configuration.ini");
         Map inputMap = new HashMap();
@@ -187,30 +178,22 @@ public class Login extends javax.swing.JFrame {
         }
         else
             JOptionPane.showMessageDialog(rootPane, "发生了致命错误！", "建立配置文件", JOptionPane.ERROR_MESSAGE);
-        
-        
-        ////
        
-        
 
     }//GEN-LAST:event_jButton3MouseClicked
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:登录按钮
-        //要传递三个变量过去，名称，si，sk，
         //读取文件，获得三个变量
         ConfigReader reader = new ConfigReader("configuration.ini");
-        
         String acquireName= reader.get("Sessions","name").get(type);
         String acquireSecretID= reader.get("Sessions","secretID").get(type);
         String acquireSecretKey= reader.get("Sessions","secretKey").get(type);
-        //System.out.println(acquireName+"\n"+acquireSecretID+"\n"+acquireSecretKey);
-        //帅啊
+
         Console start=new Console();
         start.setVar(acquireName, acquireSecretID, acquireSecretKey);
         start.setVisible(true);
         this.setVisible(false);
-        
         
     }//GEN-LAST:event_jButton2MouseClicked
 
@@ -252,7 +235,6 @@ public class Login extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> chooseHost;
     private javax.swing.JLabel hostDescription;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JScrollPane jScrollPane1;

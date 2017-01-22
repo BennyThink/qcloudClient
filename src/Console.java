@@ -2,6 +2,7 @@
 import com.benny.utilities.util;
 import com.qcloud.Utilities.Json.*;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -22,7 +23,7 @@ public class Console extends javax.swing.JFrame {
     //set var
     private String cName,cDiskID,cInstanceID,cRegion,cSnapshotID; 
     private JSONObject json=new JSONObject();
-    private Map cAuth=new HashMap();
+    private final Map cAuth=new HashMap();
     private final util rebuild=new util();
         /**
      * Creates new form Console
@@ -35,8 +36,6 @@ public class Console extends javax.swing.JFrame {
         reboot.setVisible(false);
         power.setVisible(false);
 
-        
-        //
     }
     
    
@@ -50,12 +49,12 @@ public class Console extends javax.swing.JFrame {
      * @param key 
      *          secretKey
      */
-    public void setVar(String s,String id,String key){
-    cAuth.put("secretId", id);
-    cAuth.put("secretKey", key);
-    cName=s;
-    hostTab.setTitleAt(0, cName);
-    this.setTitle("控制台 - "+cName+"");
+    public void setVar(String s, String id, String key) {
+        cAuth.put("secretId", id);
+        cAuth.put("secretKey", key);
+        cName = s;
+        hostTab.setTitleAt(0, cName);
+        this.setTitle("控制台 - " + cName + "");
         
     }
     
@@ -69,6 +68,10 @@ public class Console extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem2 = new javax.swing.JMenuItem();
         hostTab = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         hostSet = new javax.swing.JTabbedPane();
@@ -90,8 +93,26 @@ public class Console extends javax.swing.JFrame {
         delete = new javax.swing.JButton();
         restore = new javax.swing.JButton();
 
+        jMenuItem1.setText("说明");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuItem1);
+        jPopupMenu1.add(jSeparator1);
+
+        jMenuItem2.setText("关于");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuItem2);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/com/benny/images/ico.png")));
+        setResizable(false);
 
         hostTab.setToolTipText("");
 
@@ -99,6 +120,15 @@ public class Console extends javax.swing.JFrame {
         hostSet.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 hostSetMouseClicked(evt);
+            }
+        });
+
+        instance.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                instanceMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                instanceMouseReleased(evt);
             }
         });
 
@@ -311,14 +341,14 @@ public class Console extends javax.swing.JFrame {
                         .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(173, 173, 173)
                         .addComponent(restore, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(146, Short.MAX_VALUE))
+                .addContainerGap(78, Short.MAX_VALUE))
         );
         snapshotLayout.setVerticalGroup(
             snapshotLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(snapshotLayout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addGroup(snapshotLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(create, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -345,15 +375,11 @@ public class Console extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(hostTab, javax.swing.GroupLayout.PREFERRED_SIZE, 1069, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(hostTab, javax.swing.GroupLayout.PREFERRED_SIZE, 1069, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(hostTab, javax.swing.GroupLayout.PREFERRED_SIZE, 585, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(hostTab, javax.swing.GroupLayout.PREFERRED_SIZE, 585, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -368,29 +394,25 @@ public class Console extends javax.swing.JFrame {
      */
     private void setHostStatus(JSONObject json){
    
-    //这里要顺路取得对应的磁盘id，存储起来。
     ///////得到了查询的结果，然后再次调用util的方法getIV      
-        //util rebuild = new util();
-        //System.out.println("debug here "+trueValue.getIV(json, loc, "cpu"));
-        //处理json，及时return
-        //System.out.println("数量为0就return"+json.get("totalCount"));
         
-        if("0".equals(json.get("totalCount").toString()))
-        {JOptionPane.showMessageDialog(rootPane, "在 *"+cRegion+"* 未查询到服务器", "提示", JOptionPane.INFORMATION_MESSAGE);
-        return;}
-        else
+        if ("0".equals(json.get("totalCount").toString())) {
+            JOptionPane.showMessageDialog(rootPane, "在 *" + cRegion + "* 未查询到服务器", "提示", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        } else {
             System.out.println(json.getJSONArray("instanceSet").length());
-        for( int row=0;row<json.getJSONArray("instanceSet").length();row++){
-        hostStatus.setValueAt(rebuild.getIV(json, row, "unInstanceId")+" "+rebuild.getIV(json, row, "instanceName"), row, 0);
-        hostStatus.setValueAt(rebuild.getIV(json, row, "status"), row, 1);
-        hostStatus.setValueAt(rebuild.getIV(json, row, "os"), row, 2);
-        hostStatus.setValueAt(rebuild.getIV(json, row, "cpu") + "核 "
-                              + rebuild.getIV(json, row, "mem")+ "G "
-                              + rebuild.getIV(json, row, "bandwidth")+ "Mbps ", row, 3);
-        hostStatus.setValueAt(rebuild.getIV(json, row, "diskInfo"), row, 4);
-        hostStatus.setValueAt(rebuild.getIV(json, row, "wanIpSet").replace('[', ' ').replace(']', ' ').replace('"', ' ').trim(), 
-            row, 5);
-        hostStatus.setValueAt(rebuild.getIV(json, row, "deadlineTime"), row, 6);
+        }
+        for (int row = 0; row < json.getJSONArray("instanceSet").length(); row++) {
+            hostStatus.setValueAt(rebuild.getIV(json, row, "unInstanceId") + " " + rebuild.getIV(json, row, "instanceName"), row, 0);
+            hostStatus.setValueAt(rebuild.getIV(json, row, "status"), row, 1);
+            hostStatus.setValueAt(rebuild.getIV(json, row, "os"), row, 2);
+            hostStatus.setValueAt(rebuild.getIV(json, row, "cpu") + "核 "
+                + rebuild.getIV(json, row, "mem") + "G "
+                + rebuild.getIV(json, row, "bandwidth") + "Mbps ", row, 3);
+            hostStatus.setValueAt(rebuild.getIV(json, row, "diskInfo"), row, 4);
+            hostStatus.setValueAt(rebuild.getIV(json, row, "wanIpSet").replace('[', ' ').replace(']', ' ').replace('"', ' ').trim(),
+                row, 5);
+            hostStatus.setValueAt(rebuild.getIV(json, row, "deadlineTime"), row, 6);
         }
     }
     /**
@@ -412,20 +434,25 @@ public class Console extends javax.swing.JFrame {
                 rg = "sg";          
             if (ca.isSelected()) 
                 rg = "ca";        
-            cInstanceID = hostStatus.getValueAt(hostStatus.getSelectedRow(), 0).toString().substring(0, 12);
-            rebuild.doInstance(cAuth, rg, cInstanceID,action); //传递action  
+        cInstanceID = hostStatus.getValueAt(hostStatus.getSelectedRow(), 0).toString().substring(0, 12);
+        rebuild.doInstance(cAuth, rg, cInstanceID, action); //传递action  
             if(action=="StartInstances")
                 JOptionPane.showMessageDialog(rootPane, "开机指令已发出", "提示", JOptionPane.INFORMATION_MESSAGE);
              if(action=="StopInstances")
                 JOptionPane.showMessageDialog(rootPane, "关机指令已发出", "提示", JOptionPane.INFORMATION_MESSAGE);
             //设置其他按钮为不可用
-            reboot.setEnabled(false);power.setEnabled(false);////end
+        reboot.setEnabled(false);
+        power.setEnabled(false);
         
     }
-    
+    /**
+     * 
+     * @return 
+     *          实例状态
+     */
     private String checkStatus(){
     
-    String rg = null;
+        String rg = null;
             if (gz.isSelected()) 
                 rg = "gz";           
             if (sh.isSelected()) 
@@ -438,9 +465,9 @@ public class Console extends javax.swing.JFrame {
                 rg = "sg";          
             if (ca.isSelected()) 
                 rg = "ca";        
-            cInstanceID = hostStatus.getValueAt(hostStatus.getSelectedRow(), 0).toString().substring(0, 12);
-            return rebuild.doInstance(cAuth, rg, cInstanceID,"DescribeInstances").
-                getJSONArray("instanceSet").getJSONObject(hostStatus.getSelectedRow()).get("status").toString();
+        cInstanceID = hostStatus.getValueAt(hostStatus.getSelectedRow(), 0).toString().substring(0, 12);
+        return rebuild.doInstance(cAuth, rg, cInstanceID, "DescribeInstances").
+               getJSONArray("instanceSet").getJSONObject(hostStatus.getSelectedRow()).get("status").toString();
             
             
    
@@ -449,71 +476,68 @@ public class Console extends javax.swing.JFrame {
     
     private void bjMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bjMouseClicked
         // TODO add your handling code here:   
-        //目前只能处理一个(未使用循环）
-        //考虑代码重用    cRegion 北京      
-        rebuild.doInstance(cAuth, bj.getText(),null, "DescribeInstances");        
-        json=rebuild.json_result;
-        cRegion="北京";
+        //重用    cRegion 北京      
+        rebuild.doInstance(cAuth, bj.getText(), null, "DescribeInstances");
+        json = rebuild.json_result;
+        cRegion = "北京";
         setHostStatus(json);
         
     }//GEN-LAST:event_bjMouseClicked
 
     private void shMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_shMouseClicked
         // TODO add your handling code here:       
-        rebuild.doInstance(cAuth, sh.getText(), null, "DescribeInstances");        
-        json=rebuild.json_result;
-        cRegion="上海";
+        rebuild.doInstance(cAuth, sh.getText(), null, "DescribeInstances");
+        json = rebuild.json_result;
+        cRegion = "上海";
         setHostStatus(json);
     }//GEN-LAST:event_shMouseClicked
 
     private void gzMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gzMouseClicked
         // TODO add your handling code here:
-        rebuild.doInstance(cAuth, gz.getText(), null, "DescribeInstances");        
-        json=rebuild.json_result;
-        cRegion="广州";
+        rebuild.doInstance(cAuth, gz.getText(), null, "DescribeInstances");
+        json = rebuild.json_result;
+        cRegion = "广州";
         setHostStatus(json);
     }//GEN-LAST:event_gzMouseClicked
 
     private void hkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hkMouseClicked
         // TODO add your handling code here:
-        rebuild.doInstance(cAuth, hk.getText(), null, "DescribeInstances");        
-        json=rebuild.json_result;
-        cRegion="香港";
+        rebuild.doInstance(cAuth, hk.getText(), null, "DescribeInstances");
+        json = rebuild.json_result;
+        cRegion = "香港";
         setHostStatus(json);
     }//GEN-LAST:event_hkMouseClicked
 
     private void sgMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sgMouseClicked
         // TODO add your handling code here:
-        rebuild.doInstance(cAuth, sg.getText(), null, "DescribeInstances");        
-        json=rebuild.json_result;
-        cRegion="新加坡";
+        rebuild.doInstance(cAuth, sg.getText(), null, "DescribeInstances");
+        json = rebuild.json_result;
+        cRegion = "新加坡";
         setHostStatus(json);
     }//GEN-LAST:event_sgMouseClicked
 
     private void caMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_caMouseClicked
         // TODO add your handling code here:
-        rebuild.doInstance(cAuth, ca.getText(), null, "DescribeInstances");        
-        json=rebuild.json_result;
-        cRegion="北美";
+        rebuild.doInstance(cAuth, ca.getText(), null, "DescribeInstances");
+        json = rebuild.json_result;
+        cRegion = "北美";
         setHostStatus(json);
     }//GEN-LAST:event_caMouseClicked
 
     private void rebootMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rebootMouseClicked
         // TODO add your handling code here:
         //如果未选中，结果是-1；否则是0,1,2,3,4...
-        if(hostStatus.getSelectedRow()==-1)
-        {
+        if (hostStatus.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(rootPane, "未选择服务器", "提示", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        int op=JOptionPane.showConfirmDialog(rootPane, "确定要重启吗", "提示", JOptionPane.YES_NO_OPTION);
+        int op = JOptionPane.showConfirmDialog(rootPane, "确定要重启吗", "提示", JOptionPane.YES_NO_OPTION);
         //点是返回0，否返回1，有悖常理啊      
         if(op==0)
            actOnOrder("RestartInstances");
         else
             System.out.println("操作已取消");
-        //JOptionPane.showMessageDialog(rootPane, "操作已取消", "提示", JOptionPane.INFORMATION_MESSAGE);
-        /////////over
+        
         
     }//GEN-LAST:event_rebootMouseClicked
 
@@ -521,39 +545,35 @@ public class Console extends javax.swing.JFrame {
         // TODO add your handling code here:显示三个控制按钮
         //让它犯难
         //hostStatus.setValueAt("蓝瘦香菇", 0, 1);
-        if(hostStatus.getValueAt(hostStatus.getSelectedRow(), 0)!=null)
-        {reboot.setVisible(true);power.setVisible(true);cDiskID=rebuild.uDiskID;
-        //System.out.println("点击表格看diskID,console private "+cDiskID);
+        if (hostStatus.getValueAt(hostStatus.getSelectedRow(), 0) != null) {
+            reboot.setVisible(true);
+            power.setVisible(true);
+            cDiskID = rebuild.uDiskID;
         }
-        
-        if(hostStatus.getValueAt(hostStatus.getSelectedRow(),1)=="运行中")
-        { 
-        power.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/benny/images/poweroff.png")));
-        power.setToolTipText("关机");
-        }
-        else if(hostStatus.getValueAt(hostStatus.getSelectedRow(),1)=="已关机")
-        {
-        power.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/benny/images/poweron.png")));
-        power.setToolTipText("开机");
-        reboot.setVisible(false);
-        }
-        else
-        {
-        power.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/benny/images/unknow.png")));
-        power.setToolTipText("嗷呜等等吧");
-        power.setEnabled(false);
-        reboot.setEnabled(false);
+
+        if (hostStatus.getValueAt(hostStatus.getSelectedRow(), 1) == "运行中") {
+            power.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/benny/images/poweroff.png")));
+            power.setToolTipText("关机");
+        } else if (hostStatus.getValueAt(hostStatus.getSelectedRow(), 1) == "已关机") {
+            power.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/benny/images/poweron.png")));
+            power.setToolTipText("开机");
+            reboot.setVisible(false);
+        } else {
+            power.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/benny/images/unknow.png")));
+            power.setToolTipText("嗷呜等等吧");
+            power.setEnabled(false);
+            reboot.setEnabled(false);
         }
     }//GEN-LAST:event_hostStatusMouseClicked
 
     private void powerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_powerMouseClicked
         // TODO add your handling code here:执行关机或者重启任务
-        int op=JOptionPane.showConfirmDialog(rootPane, "确定要"+power.getToolTipText()+"吗", "提示", JOptionPane.OK_OPTION);
-        if(power.getToolTipText()=="开机" && op==0)
+        int op = JOptionPane.showConfirmDialog(rootPane, "确定要" + power.getToolTipText() + "吗", "提示", JOptionPane.OK_OPTION);
+        if (power.getToolTipText() == "开机" && op == 0)
             actOnOrder("StartInstances");
-        else if(power.getToolTipText()=="关机" && op==0)
+        else if (power.getToolTipText() == "关机" && op == 0)
             actOnOrder("StopInstances");
-        else if(power.getToolTipText()=="嗷呜等等吧" && op==0)
+        else if (power.getToolTipText() == "嗷呜等等吧" && op == 0)
             JOptionPane.showMessageDialog(rootPane, "叫你等，你还点，哼", "哼", JOptionPane.WARNING_MESSAGE);
         else
             System.out.println("操作已取消");
@@ -564,22 +584,21 @@ public class Console extends javax.swing.JFrame {
         // TODO add your handling code here:获取快照信息.
         //这里有个隐藏的信息，是查询所有快照啊！假如用户有两个以上不同主机的快照呢。
         //根据diskID过滤下？
-        if(cDiskID==null && hostSet.getSelectedIndex()==1)
-        {JOptionPane.showMessageDialog(rootPane, "未选择主机", "提示", JOptionPane.INFORMATION_MESSAGE);
-        hostSet.setSelectedIndex(0);
-        return;}      
+        if (cDiskID == null && hostSet.getSelectedIndex() == 1) {
+            JOptionPane.showMessageDialog(rootPane, "未选择主机", "提示", JOptionPane.INFORMATION_MESSAGE);
+            hostSet.setSelectedIndex(0);
+            return;
+        }
         //执行API
-        json=rebuild.doSnapshot(cAuth, cRegion, null, "DescribeSnapshots",null);
-        //System.out.println(json.getJSONArray("snapshotSet").getJSONObject(0).get("createTime"));
-        for( int row=0;row<json.getJSONArray("snapshotSet").length();row++)
-        {   //设置快照表格
+        json = rebuild.doSnapshot(cAuth, cRegion, null, "DescribeSnapshots", null);
+        for (int row = 0; row < json.getJSONArray("snapshotSet").length(); row++) {   
+            //设置快照表格
             snapshotList.setValueAt(rebuild.getSV(json, row, "snapshotId"), row, 0);
             snapshotList.setValueAt(rebuild.getSV(json, row, "snapshotName"), row, 1);
             snapshotList.setValueAt(rebuild.getSV(json, row, "snapshotStatus"), row, 2);
             snapshotList.setValueAt(rebuild.getSV(json, row, "percent"), row, 3);
             snapshotList.setValueAt(rebuild.getSV(json, row, "createTime"), row, 4);
-            //System.out.println(rebuild.getSV(json, row, "createTime"));
-        
+
         }
         restore.setVisible(false);
         delete.setVisible(false);
@@ -589,24 +608,22 @@ public class Console extends javax.swing.JFrame {
     }//GEN-LAST:event_hostSetMouseClicked
 
     private void snapshotListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_snapshotListMouseClicked
-        // TODO add your handling code here:点表格的时候，判断、回滚快照、删除快照这三个按钮的状态
-       // System.out.println(snapshotList.getValueAt(0, 0));
-        if(snapshotList.getValueAt(snapshotList.getSelectedRow(), 0)!=null)
-        {
-        restore.setVisible(true);
-        delete.setVisible(true);
-        cSnapshotID=snapshotList.getValueAt(snapshotList.getSelectedRow(), 0).toString();
+        // TODO add your handling code here:回滚快照、删除快照这三个按钮的状态
+        if (snapshotList.getValueAt(snapshotList.getSelectedRow(), 0) != null) {
+            restore.setVisible(true);
+            delete.setVisible(true);
+            cSnapshotID = snapshotList.getValueAt(snapshotList.getSelectedRow(), 0).toString();
+        } else if (snapshotList.getValueAt(snapshotList.getSelectedRow(), 0) == null) {
+            restore.setVisible(false);
+            delete.setVisible(false);
         }
-        else if(snapshotList.getValueAt(snapshotList.getSelectedRow(), 0)==null)
-        {restore.setVisible(false);
-        delete.setVisible(false);}
         
         
     }//GEN-LAST:event_snapshotListMouseClicked
 
     private void createMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_createMouseClicked
         // TODO add your handling code here:创建快照
-        String snapshotName=null;
+        String snapshotName = null;
         snapshotName = JOptionPane.showInputDialog(null, "请输入快照名称（可选）", "提示", JOptionPane.INFORMATION_MESSAGE);
         if (gz.isSelected()) 
                 cRegion = "gz";           
@@ -621,25 +638,25 @@ public class Console extends javax.swing.JFrame {
         if (ca.isSelected()) 
                 cRegion = "ca";  
       
-        if(snapshotName==null)
-        {rebuild.doSnapshot(cAuth, cRegion, cDiskID, "CreateSnapshot",null);
-        JOptionPane.showMessageDialog(null, "指令已发出", "提示", JOptionPane.INFORMATION_MESSAGE);}
-        else
-        { rebuild.doSnapshot(cAuth, cRegion, cDiskID, "CreateSnapshot",snapshotName);
-            JOptionPane.showMessageDialog(null, "指令已发出", "提示", JOptionPane.INFORMATION_MESSAGE);}
+        if (snapshotName == null) {
+            rebuild.doSnapshot(cAuth, cRegion, cDiskID, "CreateSnapshot", null);
+            JOptionPane.showMessageDialog(null, "指令已发出", "提示", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            rebuild.doSnapshot(cAuth, cRegion, cDiskID, "CreateSnapshot", snapshotName);
+            JOptionPane.showMessageDialog(null, "指令已发出", "提示", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_createMouseClicked
 
     private void deleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteMouseClicked
         // TODO add your handling code here:删除快照
-        //snapshotList.
-        //snapshotIds.n
-        int op=JOptionPane.showConfirmDialog(rootPane, "确定要删除吗", "提示", JOptionPane.YES_NO_OPTION);
+        int op = JOptionPane.showConfirmDialog(rootPane, "确定要删除吗", "提示", JOptionPane.YES_NO_OPTION);
         //点是返回0，否返回1，有悖常理啊    
-        String snapshotID=null;
-        snapshotID=snapshotList.getValueAt(snapshotList.getSelectedRow(), 0).toString();
-        if(op==0)
-        {rebuild.doSnapshot(cAuth, cRegion, snapshotID, "DeleteSnapshot",null);
-        JOptionPane.showMessageDialog(null, "指令已发出", "提示", JOptionPane.INFORMATION_MESSAGE);}      
+        String snapshotID = null;
+        snapshotID = snapshotList.getValueAt(snapshotList.getSelectedRow(), 0).toString();
+        if (op == 0) {
+            rebuild.doSnapshot(cAuth, cRegion, snapshotID, "DeleteSnapshot", null);
+            JOptionPane.showMessageDialog(null, "指令已发出", "提示", JOptionPane.INFORMATION_MESSAGE);
+        }    
         else
             System.out.println("操作已取消");
         
@@ -651,55 +668,77 @@ public class Console extends javax.swing.JFrame {
     private void restoreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_restoreMouseClicked
         // TODO add your handling code here:还原快照
         
-        int op=JOptionPane.showConfirmDialog(rootPane, "程序将会为你关机、执行还原、然后再开机，你确认吗？", "提示", JOptionPane.YES_NO_OPTION);
+        int op = JOptionPane.showConfirmDialog(rootPane, "程序将会为你关机、执行还原、然后再开机，你确认吗？", "提示", JOptionPane.YES_NO_OPTION);
         //点是返回0，否返回1，有悖常理啊    
-        String snapshotID=null;
-        String snapshotStat=null;
-        snapshotID=snapshotList.getValueAt(snapshotList.getSelectedRow(), 0).toString();
+        String snapshotID = null;
+        String snapshotStat = null;
+        snapshotID = snapshotList.getValueAt(snapshotList.getSelectedRow(), 0).toString();
         /*snapshotList.getValueAt(snapshotList.getSelectedRow(), 0).toString();*/
-        snapshotStat=rebuild.doSnapshot(cAuth, cRegion, cDiskID, "DescribeSnapshots", null).getJSONArray("snapshotSet").getJSONObject(
-            snapshotList.getSelectedRow()).get("snapshotStatus").toString();
-                System.out.println("problem is here "+snapshotStat);
-        if(op==0)
-        {       try {
-                
+        snapshotStat = rebuild.doSnapshot(cAuth, cRegion, cDiskID, "DescribeSnapshots", null).getJSONArray("snapshotSet").getJSONObject(
+                       snapshotList.getSelectedRow()).get("snapshotStatus").toString();
+        //System.out.println("problem is here "+snapshotStat);
+        if (op == 0) {
+            try {
+
                 actOnOrder("StopInstances");
-                while(true)
-                {
-                Thread.sleep(2500);
-                if("4".equals(checkStatus()))
-                    break;              
+                while (true) {
+                    Thread.sleep(2500);
+                    if ("4".equals(checkStatus())) 
+                        break;                  
                 }
-                
-                rebuild.doSnapshot(cAuth, cRegion, cDiskID, "ApplySnapshot",snapshotID);
+
+                rebuild.doSnapshot(cAuth, cRegion, cDiskID, "ApplySnapshot", snapshotID);
                 JOptionPane.showMessageDialog(null, "还原指令已发出", "提示", JOptionPane.INFORMATION_MESSAGE);
-                while(true)
-                {
-                Thread.sleep(2500);
-                snapshotStat=rebuild.doSnapshot(cAuth, cRegion, cDiskID, "DescribeSnapshots", null).getJSONArray("snapshotSet").getJSONObject(
-            snapshotList.getSelectedRow()).get("snapshotStatus").toString();
-                if("rollbacking".equals(snapshotStat))//查询快照
-                    System.out.println("回滚中");
-                else
-                    break;
-                }              
+                while (true) {
+                    Thread.sleep(2500);
+                    snapshotStat = rebuild.doSnapshot(cAuth, cRegion, cDiskID, "DescribeSnapshots", null).getJSONArray("snapshotSet").getJSONObject(
+                        snapshotList.getSelectedRow()).get("snapshotStatus").toString();
+                    if ("rollbacking".equals(snapshotStat))//查询快照                  
+                        System.out.println("回滚中");
+                     else 
+                        break;                  
+                }
                 actOnOrder("StartInstances");
             } catch (InterruptedException ex) {
                 Logger.getLogger(Console.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-               
-       
-        }
-        
+
+        }       
         else
             System.out.println("操作已取消");
-        
-        
-        
-        
+              
     }//GEN-LAST:event_restoreMouseClicked
 
+    private void instanceMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_instanceMousePressed
+        // TODO add your handling code here:
+        if (evt.isPopupTrigger()) 
+            showPopupMenu(evt);
+        
+    }//GEN-LAST:event_instanceMousePressed
+
+    private void instanceMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_instanceMouseReleased
+        // TODO add your handling code here:
+        if (evt.isPopupTrigger()) 
+            showPopupMenu(evt);
+        
+    }//GEN-LAST:event_instanceMouseReleased
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "鼠标点击就好了，就是酱紫。如遇bug欢迎回报\n网址：https://www.bennythink.com", 
+            "使用说明", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "由Benny于2017年1月22日发布。请注意，本软件无任何保证。\n斯人若彩虹，遇上方知有。",
+            "关于", JOptionPane.INFORMATION_MESSAGE);
+
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void showPopupMenu(MouseEvent e) {
+        jPopupMenu1.show(this, e.getX(), e.getY());
+}
     /**
      * @param args the command line arguments
      */
@@ -747,9 +786,13 @@ public class Console extends javax.swing.JFrame {
     private javax.swing.JTable hostStatus;
     private javax.swing.JTabbedPane hostTab;
     private javax.swing.JPanel instance;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JButton power;
     private javax.swing.JButton reboot;
     private javax.swing.JButton restore;

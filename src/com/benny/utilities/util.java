@@ -12,7 +12,6 @@ import com.qcloud.Utilities.Json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,7 +19,7 @@ import javax.swing.JOptionPane;
  */
 public class util {
     //定义一些可能会用到的变量
-    private Map customMap=new HashMap();
+    private final Map customMap=new HashMap();
     public String uDiskID;
     private JSONObject uDiskInfo=new JSONObject();
     public JSONObject json_result=new JSONObject();
@@ -97,7 +96,6 @@ public class util {
         //实例ID和硬盘ID
         uDiskInfo=(JSONObject)obj.getJSONArray("instanceSet").getJSONObject(loc).get("diskInfo");
         uDiskID=uDiskInfo.get("rootId").toString();
-        //System.out.println("输出diskID，请进行测试，存储在util的变量中"+uDiskID);
         
         if("status".equals(key))    
             return convertStatus(obj.getJSONArray("instanceSet").getJSONObject(loc).get(key).toString());          
@@ -203,6 +201,8 @@ public class util {
      *              磁盘ID
      * @param Action
      *              执行的操作, i.e.DescribeSnapshots
+     * @param Name  
+     *              快照ID
      * @return 
      */
     
@@ -264,9 +264,6 @@ public class util {
      
     }
     
-    
-   
-           
-    
+
     
 }
