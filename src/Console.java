@@ -21,7 +21,8 @@ import javax.swing.JOptionPane;
  */
 public class Console extends javax.swing.JFrame {
     //set var
-    private String cName,cDiskID,cInstanceID,cRegion,cSnapshotID; 
+    private String cName,cDiskID,cInstanceID,cRegion,cSnapshotID;
+    private String load;
     private JSONObject json=new JSONObject();
     private final Map cAuth=new HashMap();
     private final util rebuild=new util();
@@ -54,10 +55,15 @@ public class Console extends javax.swing.JFrame {
         cAuth.put("secretKey", key);
         cName = s;
         hostTab.setTitleAt(0, cName);
-        this.setTitle("控制台 - " + cName + "");
-        
+        this.setTitle("控制台 - " + cName + "");    
     }
-    
+    /**
+     * 提示用户加载中
+     */
+    private void loading() {
+        load = this.getTitle();
+        this.setTitle(load + "  加载中...请稍候");
+    }
 
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The content of this
@@ -247,8 +253,9 @@ public class Console extends javax.swing.JFrame {
                         .addGap(95, 95, 95)
                         .addComponent(power, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(182, 182, 182)
-                        .addComponent(reboot, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(reboot, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(190, 190, 190)))
+                .addContainerGap(123, Short.MAX_VALUE))
         );
         instanceLayout.setVerticalGroup(
             instanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -267,7 +274,7 @@ public class Console extends javax.swing.JFrame {
                 .addGroup(instanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(power, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(reboot, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(150, Short.MAX_VALUE))
         );
 
         hostSet.addTab("实例", instance);
@@ -440,6 +447,8 @@ public class Console extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(rootPane, "开机指令已发出", "提示", JOptionPane.INFORMATION_MESSAGE);
              if(action=="StopInstances")
                 JOptionPane.showMessageDialog(rootPane, "关机指令已发出", "提示", JOptionPane.INFORMATION_MESSAGE);
+              if(action=="RestartInstances")
+                JOptionPane.showMessageDialog(rootPane, "重启指令已发出", "提示", JOptionPane.INFORMATION_MESSAGE);
             //设置其他按钮为不可用
         reboot.setEnabled(false);
         power.setEnabled(false);
@@ -468,60 +477,69 @@ public class Console extends javax.swing.JFrame {
         cInstanceID = hostStatus.getValueAt(hostStatus.getSelectedRow(), 0).toString().substring(0, 12);
         return rebuild.doInstance(cAuth, rg, cInstanceID, "DescribeInstances").
                getJSONArray("instanceSet").getJSONObject(hostStatus.getSelectedRow()).get("status").toString();
-            
-            
    
-    
     }
     
     private void bjMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bjMouseClicked
         // TODO add your handling code here:   
-        //重用    cRegion 北京      
+        //重用    cRegion 北京   
+        loading();
         rebuild.doInstance(cAuth, bj.getText(), null, "DescribeInstances");
         json = rebuild.json_result;
         cRegion = "北京";
         setHostStatus(json);
+        this.setTitle(load);
         
     }//GEN-LAST:event_bjMouseClicked
 
     private void shMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_shMouseClicked
-        // TODO add your handling code here:       
+        // TODO add your handling code here:  
+        loading();
         rebuild.doInstance(cAuth, sh.getText(), null, "DescribeInstances");
         json = rebuild.json_result;
         cRegion = "上海";
         setHostStatus(json);
+        this.setTitle(load);
     }//GEN-LAST:event_shMouseClicked
 
     private void gzMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gzMouseClicked
         // TODO add your handling code here:
+        loading();
         rebuild.doInstance(cAuth, gz.getText(), null, "DescribeInstances");
         json = rebuild.json_result;
         cRegion = "广州";
         setHostStatus(json);
+        this.setTitle(load);
     }//GEN-LAST:event_gzMouseClicked
 
     private void hkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hkMouseClicked
         // TODO add your handling code here:
+        loading();
         rebuild.doInstance(cAuth, hk.getText(), null, "DescribeInstances");
         json = rebuild.json_result;
         cRegion = "香港";
         setHostStatus(json);
+        this.setTitle(load);
     }//GEN-LAST:event_hkMouseClicked
 
     private void sgMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sgMouseClicked
         // TODO add your handling code here:
+        loading();
         rebuild.doInstance(cAuth, sg.getText(), null, "DescribeInstances");
         json = rebuild.json_result;
         cRegion = "新加坡";
         setHostStatus(json);
+        this.setTitle(load);
     }//GEN-LAST:event_sgMouseClicked
 
     private void caMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_caMouseClicked
         // TODO add your handling code here:
+        loading();
         rebuild.doInstance(cAuth, ca.getText(), null, "DescribeInstances");
         json = rebuild.json_result;
         cRegion = "北美";
         setHostStatus(json);
+        this.setTitle(load);
     }//GEN-LAST:event_caMouseClicked
 
     private void rebootMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rebootMouseClicked
@@ -533,8 +551,8 @@ public class Console extends javax.swing.JFrame {
         }
         int op = JOptionPane.showConfirmDialog(rootPane, "确定要重启吗", "提示", JOptionPane.YES_NO_OPTION);
         //点是返回0，否返回1，有悖常理啊      
-        if(op==0)
-           actOnOrder("RestartInstances");
+        if (op == 0) 
+            actOnOrder("RestartInstances");
         else
             System.out.println("操作已取消");
         
@@ -584,6 +602,7 @@ public class Console extends javax.swing.JFrame {
         // TODO add your handling code here:获取快照信息.
         //这里有个隐藏的信息，是查询所有快照啊！假如用户有两个以上不同主机的快照呢。
         //根据diskID过滤下？
+        loading();
         if (cDiskID == null && hostSet.getSelectedIndex() == 1) {
             JOptionPane.showMessageDialog(rootPane, "未选择主机", "提示", JOptionPane.INFORMATION_MESSAGE);
             hostSet.setSelectedIndex(0);
@@ -602,7 +621,7 @@ public class Console extends javax.swing.JFrame {
         }
         restore.setVisible(false);
         delete.setVisible(false);
-        
+        this.setTitle(load);
        
           
     }//GEN-LAST:event_hostSetMouseClicked
@@ -640,10 +659,10 @@ public class Console extends javax.swing.JFrame {
       
         if (snapshotName == null) {
             rebuild.doSnapshot(cAuth, cRegion, cDiskID, "CreateSnapshot", null);
-            JOptionPane.showMessageDialog(null, "指令已发出", "提示", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "创建快照指令已发出", "提示", JOptionPane.INFORMATION_MESSAGE);
         } else {
             rebuild.doSnapshot(cAuth, cRegion, cDiskID, "CreateSnapshot", snapshotName);
-            JOptionPane.showMessageDialog(null, "指令已发出", "提示", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "创建快照指令已发出", "提示", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_createMouseClicked
 
@@ -655,7 +674,7 @@ public class Console extends javax.swing.JFrame {
         snapshotID = snapshotList.getValueAt(snapshotList.getSelectedRow(), 0).toString();
         if (op == 0) {
             rebuild.doSnapshot(cAuth, cRegion, snapshotID, "DeleteSnapshot", null);
-            JOptionPane.showMessageDialog(null, "指令已发出", "提示", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "删除快照指令已发出", "提示", JOptionPane.INFORMATION_MESSAGE);
         }    
         else
             System.out.println("操作已取消");

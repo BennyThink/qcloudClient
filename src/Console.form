@@ -147,9 +147,10 @@
                                       <Component id="power" min="-2" pref="64" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="182" max="-2" attributes="0"/>
                                       <Component id="reboot" min="-2" pref="64" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="190" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="123" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -172,7 +173,7 @@
                                   <Component id="power" min="-2" pref="64" max="-2" attributes="0"/>
                                   <Component id="reboot" min="-2" pref="64" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="150" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
