@@ -92,6 +92,7 @@ public class Console extends javax.swing.JFrame {
         hostStatus = new javax.swing.JTable();
         reboot = new javax.swing.JButton();
         power = new javax.swing.JButton();
+        su = new javax.swing.JButton();
         snapshot = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         snapshotList = new javax.swing.JTable();
@@ -221,9 +222,18 @@ public class Console extends javax.swing.JFrame {
             }
         });
 
+        power.setPreferredSize(new java.awt.Dimension(64, 64));
         power.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 powerMouseClicked(evt);
+            }
+        });
+
+        su.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/benny/images/su.png"))); // NOI18N
+        su.setToolTipText("切换用户");
+        su.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                suMouseClicked(evt);
             }
         });
 
@@ -252,9 +262,10 @@ public class Console extends javax.swing.JFrame {
                     .addGroup(instanceLayout.createSequentialGroup()
                         .addGap(95, 95, 95)
                         .addComponent(power, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(182, 182, 182)
+                        .addGap(141, 141, 141)
                         .addComponent(reboot, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(190, 190, 190)))
+                        .addGap(152, 152, 152)
+                        .addComponent(su, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(123, Short.MAX_VALUE))
         );
         instanceLayout.setVerticalGroup(
@@ -271,7 +282,8 @@ public class Console extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(134, 134, 134)
-                .addGroup(instanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(instanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(su, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(power, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(reboot, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(150, Short.MAX_VALUE))
@@ -755,6 +767,16 @@ public class Console extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void suMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_suMouseClicked
+        // TODO add your handling code here:切换用户
+        
+        Login su=new Login();
+        su.setVisible(true);
+       this.dispose();
+        
+        
+    }//GEN-LAST:event_suMouseClicked
+
     private void showPopupMenu(MouseEvent e) {
         jPopupMenu1.show(this, e.getX(), e.getY());
 }
@@ -819,5 +841,6 @@ public class Console extends javax.swing.JFrame {
     private javax.swing.JRadioButton sh;
     private javax.swing.JPanel snapshot;
     private javax.swing.JTable snapshotList;
+    private javax.swing.JButton su;
     // End of variables declaration//GEN-END:variables
 }
