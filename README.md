@@ -1,45 +1,29 @@
-﻿# qcloudClient
-一个使用Java编写的腾讯云本地客户端
+# qcloudClient
+一个使用Java编写的腾讯云本地客户端<br>
 开发工具：NetBeans
 
-#请注意#
-NetBeans默认使用UTF-8编码格式，而Windows并不是。所以如果在Windows下出现乱码请把configuration.ini转换成ANSI格式
-后续可能会添加编码转换。
+#这是啥#
+一个方便管理腾讯云服务器的Java应用程序，尤其是那些有着多个学生优惠的童鞋
+
+#下载#
+[GitHub Release](https://github.com/BennyThink/qcloudClient/releases "GitHub Release")
+
+#使用条件与方法#
+需要安装JDK或者JRE，解压缩然后双击`qcloudClient.jar`,如无法运行，Windows双击`start.bat`, Linux切换到对应目录执行`sh start.sh`<br>
+详细说明[戳我啦](https://www.bennythink.com/qclient.html "土豆不好吃")
 
 #功能#
-2017年1月21日：查询实例、开机、关机、重启、查询快照、创建快照、删除快照、恢复快照
+* 查询实例
+* 开机
+* 关机
+* 重启
+* 查询快照
+* 创建快照
+* 删除快照
+* 恢复快照
 
-#开发进度#
-* 2017年1月18日 实现了大部分选择服务器界面
-* 2017年1月18日 问题：如何处理JSON数组，将我需要的值提取出来转换成String
-* 2017年1月19日 已经完成了开机、关机、重启，并且设置了icon
-* 2017年1月21日 完成查询实例、开机、关机、重启、查询快照、创建快照、删除快照、恢复快照
-* 2017年1月23日 增加切换用户
-#开发想法#
-使用了腾讯云的Java SDK（这个SDK...还是蛮方便的，用起来很方便）
-##多用户##
-将用户的secreID和secret保存在一个配置文件中（或许json？），打开的时候读取。
-想法：根据配置文件动态的生成一个选择，来让用户选择，选择之后进入一个新的界面。新的界面使用选项卡式浏览。
-参考WinSCP
-![WinSCP登录][1]
-![WinSCP管理][2]
-
-
-  [1]: https://ojx583tpj.qnssl.com/winscp1.jpg
-  [2]: https://ojx583tpj.qnssl.com/winscp2.jpg
-
-##实现功能##
-根据腾讯云的API接口，目前我觉得有必要实现的功能有：
-* 查询实例状态 √
-* 启动实例 √
-* 关闭实例 √
-* 重启实例 √
-* 重装实例（需要再次弹出窗口选择系统，或者默认选项，后续考虑）
-* 重置密码
-其中我觉得最**核心的功能是对快照进行管理**
-* 创建快照 √
-* 恢复快照 √
-
+#请注意#
+NetBeans默认使用UTF-8编码格式，而Windows并不是。所以如果在Windows下出现乱码请把`configuration.ini`转换成ANSI
 
 ##许可证##
 GPL v3

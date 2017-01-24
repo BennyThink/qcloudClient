@@ -773,7 +773,7 @@ public class Console extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null, "由Benny于2017年1月22日发布。请注意，本软件无任何保证。\n斯人若彩虹，遇上方知有。",
+        JOptionPane.showMessageDialog(null, "由Benny于2017年1月24日发布。请注意，本软件无任何保证。\n斯人若彩虹，遇上方知有。",
             "关于", JOptionPane.INFORMATION_MESSAGE);
 
     }//GEN-LAST:event_jMenuItem2ActionPerformed
