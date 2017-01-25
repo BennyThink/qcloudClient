@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 
 /**
@@ -644,9 +645,7 @@ public class Console extends javax.swing.JFrame {
         }
         restore.setVisible(false);
         delete.setVisible(false);
-        this.setTitle(load);
-       
-          
+        this.setTitle(load);       
     }//GEN-LAST:event_hostSetMouseClicked
 
     private void snapshotListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_snapshotListMouseClicked
@@ -681,11 +680,11 @@ public class Console extends javax.swing.JFrame {
                 cRegion = "ca";  
       
         if (snapshotName == null) {
-            rebuild.doSnapshot(cAuth, cRegion, cDiskID, "CreateSnapshot", null);
-            JOptionPane.showMessageDialog(null, "创建快照指令已发出", "提示", JOptionPane.INFORMATION_MESSAGE);
+            System.out.println("操作已取消");
         } else {
             rebuild.doSnapshot(cAuth, cRegion, cDiskID, "CreateSnapshot", snapshotName);
             JOptionPane.showMessageDialog(null, "创建快照指令已发出", "提示", JOptionPane.INFORMATION_MESSAGE);
+            hostSetMouseClicked(evt);
         }
     }//GEN-LAST:event_createMouseClicked
 
@@ -698,6 +697,8 @@ public class Console extends javax.swing.JFrame {
         if (op == 0) {
             rebuild.doSnapshot(cAuth, cRegion, snapshotID, "DeleteSnapshot", null);
             JOptionPane.showMessageDialog(null, "删除快照指令已发出", "提示", JOptionPane.INFORMATION_MESSAGE);
+            DefaultTableModel tableModel = (DefaultTableModel) snapshotList.getModel();
+            tableModel.removeRow(snapshotList.getSelectedRow());
         }    
         else
             System.out.println("操作已取消");

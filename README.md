@@ -12,6 +12,9 @@
 需要安装JDK或者JRE，解压缩然后双击`qcloudClient.jar`,如无法运行，Windows双击`start.bat`, Linux切换到对应目录执行`sh start.sh`<br>
 详细说明[戳我啦](https://www.bennythink.com/qclient.html "土豆不好吃")
 
+# 更新日志 #
+* 2017年1月25日 修复了创建快照时的逻辑错误、删除快照时的处理方式
+
 #功能#
 * 查询实例
 * 开机
