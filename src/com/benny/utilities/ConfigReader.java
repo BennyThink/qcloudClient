@@ -23,6 +23,7 @@ package com.benny.utilities;
  */
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.JOptionPane;
  
 /**
  * 类名：读取配置类<br>
@@ -38,7 +40,7 @@ import java.util.Map;
  *
  */
 public class ConfigReader {
-     
+    
     /**
      * 整个ini的引用
      */
@@ -53,16 +55,14 @@ public class ConfigReader {
      * @param path
      */
     public ConfigReader(String path) {
-        map = new HashMap<String, Map<String,List<String>>>();
+        map = new HashMap<String, Map<String, List<String>>>();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(path));
             read(reader);
         } catch (IOException e) {
-            e.printStackTrace();
-
             throw new RuntimeException("IO Exception:" + e);
         }
-         
+
     }
  
     /**
@@ -171,11 +171,6 @@ public class ConfigReader {
     public Map<String, Map<String, List<String>>> get(){
         return map;
     }
-    /**
-     * 将输入写入到配置文件中
-     * @param Map
-     * @return 
-     */
     
     /**
      * 将输入写入到配置文件中
@@ -191,9 +186,7 @@ public class ConfigReader {
             + "secretID=" + content.get("secretID").toString() + "\r\n"
             + "secretKey=" + content.get("secretKey").toString() + "\r\n"
             + "comment=" + content.get("comment").toString() + "\r\n";
-        
-        //System.out.println(toBeWriten);
-        
+
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(new OutputStreamWriter(

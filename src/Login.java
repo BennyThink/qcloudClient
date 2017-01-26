@@ -16,6 +16,11 @@
  */
 import com.benny.utilities.ConfigReader;
 import java.awt.Toolkit;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,15 +42,19 @@ public class Login extends javax.swing.JFrame {
         //setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/com/benny/images/ico.png")));
         setLocationRelativeTo(null);
         jButton2.setEnabled(false);
-        ConfigReader reader = new ConfigReader("configuration.ini");
+        //检查配置文件存在与否     
+        if(isExist()){
+        ConfigReader reader = new ConfigReader("configuration.ini");          
         List acquireName= reader.get("Sessions","name");
         List acquireComment= reader.get("Sessions","comment");
         DefaultListModel listModel = new DefaultListModel();
         chooseHost.setModel(listModel);
         for(int i=0;i<acquireName.size();i++)
             listModel.addElement(acquireName.get(i).toString());
-        
-        
+        }
+        else
+            createDefaultConfig();
+               
     }
 
     /**
@@ -127,7 +136,52 @@ public class Login extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
+    /**
+     * 检查配置文件是否存在
+     * @return 存在与否
+     */
+    private boolean isExist(){
+    File file = new File("configuration.ini");
+        if (file.exists()) 
+            return true;
+        else
+            return false;
+        
+    }
+    /**
+     * 创建默认配置文件
+     */  
+    private void createDefaultConfig(){
+        
+        //默认配置文件
+        JOptionPane.showMessageDialog(null, "第一次使用，请先添加配置文件", "提示", JOptionPane.INFORMATION_MESSAGE);
+        String toBeWriten = "[Sessions]\r\n"+"[Sessions]\r\n"
+            + "name=默认站点\r\n"
+            + "secretID=你的secretID\r\n"
+            + "secretKey=你的secretKey\r\n"
+            + "comment=备注信息\r\n";
 
+        BufferedWriter out = null;
+        try {
+            out = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream("configuration.ini", true)));
+                out.write(toBeWriten + "\r\n");          
+        } catch (Exception e) {
+            e.printStackTrace();         
+        } finally {
+            try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        //弹出添加配置文件窗口
+        java.awt.event.MouseEvent evt = null;
+        jButton3MouseClicked(evt);
+             
+    }
+    
     private void chooseHostMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_chooseHostMouseClicked
        
         if ("默认站点".equals(chooseHost.getSelectedValue())) 
@@ -184,7 +238,7 @@ public class Login extends javax.swing.JFrame {
         inputMap.put("comment", inputComment);       
         if (writeConfig.append(inputMap)) {
             JOptionPane.showMessageDialog(rootPane, "配置文件建立成功！请重启应用", "建立配置文件", JOptionPane.INFORMATION_MESSAGE);
-            System.exit(0);
+            System.exit(0);           
         }
         else
             JOptionPane.showMessageDialog(rootPane, "发生了致命错误！", "建立配置文件", JOptionPane.ERROR_MESSAGE);

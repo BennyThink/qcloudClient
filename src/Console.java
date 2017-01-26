@@ -429,6 +429,9 @@ public class Console extends javax.swing.JFrame {
         
         if ("0".equals(json.get("totalCount").toString())) {
             JOptionPane.showMessageDialog(rootPane, "在 *" + cRegion + "* 未查询到服务器", "提示", JOptionPane.INFORMATION_MESSAGE);
+             DefaultTableModel tableModel2 = (DefaultTableModel) hostStatus.getModel();
+            tableModel2.setRowCount(1);
+     
             return;
         } else {
             System.out.println(json.getJSONArray("instanceSet").length());
@@ -782,9 +785,9 @@ public class Console extends javax.swing.JFrame {
     private void suMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_suMouseClicked
         // TODO add your handling code here:切换用户
         
-        Login su=new Login();
+        Login su = new Login();
         su.setVisible(true);
-       this.dispose();
+        this.dispose();
         
         
     }//GEN-LAST:event_suMouseClicked
