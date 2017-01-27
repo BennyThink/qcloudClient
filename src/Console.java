@@ -415,7 +415,14 @@ public class Console extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * 把表清空
+     */
+    private void clearTable(){
+        for(int i=0;i<hostStatus.getRowCount();i++)
+            for (int j=0;j<hostStatus.getColumnCount();j++)
+                hostStatus.setValueAt(null, i, j);
+    }
     /**
      * 
      * @param json
@@ -429,9 +436,8 @@ public class Console extends javax.swing.JFrame {
         
         if ("0".equals(json.get("totalCount").toString())) {
             JOptionPane.showMessageDialog(rootPane, "在 *" + cRegion + "* 未查询到服务器", "提示", JOptionPane.INFORMATION_MESSAGE);
-             DefaultTableModel tableModel2 = (DefaultTableModel) hostStatus.getModel();
-            tableModel2.setRowCount(1);
-     
+            clearTable();
+            cDiskID=null;
             return;
         } else {
             System.out.println(json.getJSONArray("instanceSet").length());
@@ -606,8 +612,8 @@ public class Console extends javax.swing.JFrame {
         } else {
             power.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/benny/images/unknow.png")));
             power.setToolTipText("嗷呜等等吧");
-            power.setEnabled(false);
-            reboot.setEnabled(false);
+            power.setVisible(false);
+            reboot.setVisible(false);
         }
     }//GEN-LAST:event_hostStatusMouseClicked
 
@@ -633,6 +639,7 @@ public class Console extends javax.swing.JFrame {
         if (cDiskID == null && hostSet.getSelectedIndex() == 1) {
             JOptionPane.showMessageDialog(rootPane, "未选择主机", "提示", JOptionPane.INFORMATION_MESSAGE);
             hostSet.setSelectedIndex(0);
+            this.setTitle(load); 
             return;
         }
         //执行API

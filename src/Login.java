@@ -42,18 +42,8 @@ public class Login extends javax.swing.JFrame {
         //setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/com/benny/images/ico.png")));
         setLocationRelativeTo(null);
         jButton2.setEnabled(false);
-        //检查配置文件存在与否     
-        if(isExist()){
-        ConfigReader reader = new ConfigReader("configuration.ini");          
-        List acquireName= reader.get("Sessions","name");
-        List acquireComment= reader.get("Sessions","comment");
-        DefaultListModel listModel = new DefaultListModel();
-        chooseHost.setModel(listModel);
-        for(int i=0;i<acquireName.size();i++)
-            listModel.addElement(acquireName.get(i).toString());
-        }
-        else
-            createDefaultConfig();
+        //加载配置文件     
+        loadConfig();
                
     }
 
@@ -136,7 +126,24 @@ public class Login extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    /**
+     * 加载配置文件
+     */
+    private void loadConfig(){
     
+    if(isExist()){
+        ConfigReader reader = new ConfigReader("configuration.ini");          
+        List acquireName= reader.get("Sessions","name");
+        //List acquireComment= reader.get("Sessions","comment");
+        DefaultListModel listModel = new DefaultListModel();
+        chooseHost.setModel(listModel);
+        for(int i=0;i<acquireName.size();i++)
+            listModel.addElement(acquireName.get(i).toString());
+        }
+        else
+            createDefaultConfig();
+    
+    }
     /**
      * 检查配置文件是否存在
      * @return 存在与否
@@ -237,8 +244,8 @@ public class Login extends javax.swing.JFrame {
         inputMap.put("secretKey", inputSecretKey);
         inputMap.put("comment", inputComment);       
         if (writeConfig.append(inputMap)) {
-            JOptionPane.showMessageDialog(rootPane, "配置文件建立成功！请重启应用", "建立配置文件", JOptionPane.INFORMATION_MESSAGE);
-            System.exit(0);           
+            JOptionPane.showMessageDialog(rootPane, "配置文件建立成功！", "建立配置文件", JOptionPane.INFORMATION_MESSAGE);
+            loadConfig();           
         }
         else
             JOptionPane.showMessageDialog(rootPane, "发生了致命错误！", "建立配置文件", JOptionPane.ERROR_MESSAGE);
