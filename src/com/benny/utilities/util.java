@@ -18,6 +18,7 @@
 package com.benny.utilities;
 
 import com.qcloud.Module.Cvm;
+import com.qcloud.Module.Image;
 import com.qcloud.Module.Snapshot;
 import com.qcloud.QcloudApiModuleCenter;
 import com.qcloud.Utilities.Json.JSONObject;
@@ -72,6 +73,37 @@ public class util {
         //put ends
         return customMap.get(statusNum).toString();
         
+    }
+    /**
+     * 取得镜像对应的ID
+     * @param ImageName
+     *          镜像名字
+     * @return 
+     *          ImageID
+     */
+    public String getImageID(String ImageName){
+        customMap.clear();
+        customMap.put("当前系统", "current");
+        customMap.put("CentOS 6.7 32位", "img-ljriodz5");
+        customMap.put("CentOS 6.7 64位", "img-9iwld2rx");
+        customMap.put("CentOS 7.2 64位", "img-31tjrtph");
+        customMap.put("Debian 8.2 32位", "img-ez7jwngr");
+        customMap.put("Debian 8.2 64位", "img-hi93l4ht");
+        customMap.put("Debian 7.8 32位", "img-2p1g2wjv");
+        customMap.put("Debian 7.8 64位", "img-feqctcrx");
+        customMap.put("openSUSE 13.2 64位", "img-pmhtrjdx");
+        customMap.put("FreeBSD 10.1 64位", "img-871lthrb");
+        customMap.put("CoreOS 717.3.0 64位", "img-6mre94jv");
+        customMap.put("Ubuntu Server 14.04.1 LTS 32位", "img-qpxvpujt");
+        customMap.put("Ubuntu Server 14.04.1 LTS 64位", "img-3wnd9xpl");
+        customMap.put("Ubuntu Server 16.04.1 LTS 32位", "img-8u6dn6p1");
+        customMap.put("Ubuntu Server 16.04.1 LTS 64位", "img-pyqx34y1");
+        customMap.put("Windows Server 2012 R2 标准版 64位中文版", "img-egif9bvl");
+        customMap.put("Windows Server 2012 R2 数据中心版 64位中文版", "img-29hl923v");
+        customMap.put("Windows Server 2008 R2 企业版 SP1 64位", "img-0vbqvzfn");
+        
+        return customMap.get(ImageName).toString();
+   
     }
     
     
@@ -277,5 +309,56 @@ public class util {
     }
     
 
+    public String resetOS(Map uAuth,String region,String Instance,String password,String imageId){    
+        
+        if(region=="广州")
+            region="gz";
+        else if(region=="上海")
+            region="sh";
+        else if(region=="北京")
+            region="bj";
+        else if(region=="香港")
+            region="hk";
+        else if(region=="新加坡")
+            region="sg";
+        else if(region=="北美")
+            region="ca";
+                   
+		TreeMap<String, Object> config = new TreeMap<String, Object>();
+		config.put("SecretId", uAuth.get("secretId"));
+		config.put("SecretKey", uAuth.get("secretKey"));
+		config.put("RequestMethod", "GET");
+		config.put("DefaultRegion", region);
+		QcloudApiModuleCenter module = new QcloudApiModuleCenter(new Cvm(),
+				config);
+		TreeMap<String, Object> params = new TreeMap<String, Object>();//instanceIds.0
+       
+        if (imageId == "current") {
+            params.put("instanceId", Instance);
+            params.put("password", password);
+        } else {
+            params.put("instanceId", Instance);
+            params.put("imageType", 2);
+            params.put("imageId", imageId);
+            params.put("password", password);
+        }
+       
+        /* generateUrl 方法生成请求串，但不发送请求。在正式请求中，可以删除下面这行代码。 */
+        //System.out.println(module.generateUrl("ResetInstances",params));
+		String result = null;
+		try {
+			/* call 方法正式向指定的接口名发送请求，并把请求参数params传入，返回即是接口的请求结果。 */
+			result = module.call("ResetInstances", params);
+			json_result = new JSONObject(result);
+			//System.out.println(json_result);//原始响应，需要将其处理      
+            
+		} catch (Exception e) {
+			System.out.println("error..." + e.getMessage());
+		}
+            //return null;
+           return json_result.getString("code")+json_result.getString("message");
+     
+    }
+    
     
 }

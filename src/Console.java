@@ -48,6 +48,7 @@ public class Console extends javax.swing.JFrame {
         snapshotList.setRowHeight(40);
         reboot.setVisible(false);
         power.setVisible(false);
+        reset.setVisible(false);
 
     }
     
@@ -105,6 +106,7 @@ public class Console extends javax.swing.JFrame {
         reboot = new javax.swing.JButton();
         power = new javax.swing.JButton();
         su = new javax.swing.JButton();
+        reset = new javax.swing.JButton();
         snapshot = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         snapshotList = new javax.swing.JTable();
@@ -249,6 +251,13 @@ public class Console extends javax.swing.JFrame {
             }
         });
 
+        reset.setToolTipText("重装系统");
+        reset.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                resetMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout instanceLayout = new javax.swing.GroupLayout(instance);
         instance.setLayout(instanceLayout);
         instanceLayout.setHorizontalGroup(
@@ -277,27 +286,32 @@ public class Console extends javax.swing.JFrame {
                         .addGap(141, 141, 141)
                         .addComponent(reboot, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(152, 152, 152)
-                        .addComponent(su, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(su, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(148, 148, 148)
+                        .addComponent(reset, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(123, Short.MAX_VALUE))
         );
         instanceLayout.setVerticalGroup(
             instanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(instanceLayout.createSequentialGroup()
                 .addGap(29, 29, 29)
-                .addGroup(instanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(gz)
-                    .addComponent(sh)
-                    .addComponent(bj)
-                    .addComponent(hk)
-                    .addComponent(sg)
-                    .addComponent(ca))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(134, 134, 134)
-                .addGroup(instanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(su, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(power, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(reboot, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(instanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(reset, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(instanceLayout.createSequentialGroup()
+                        .addGroup(instanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(gz)
+                            .addComponent(sh)
+                            .addComponent(bj)
+                            .addComponent(hk)
+                            .addComponent(sg)
+                            .addComponent(ca))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(134, 134, 134)
+                        .addGroup(instanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(su, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(power, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(reboot, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(150, Short.MAX_VALUE))
         );
 
@@ -443,7 +457,8 @@ public class Console extends javax.swing.JFrame {
             System.out.println(json.getJSONArray("instanceSet").length());
         }
         for (int row = 0; row < json.getJSONArray("instanceSet").length(); row++) {
-            hostStatus.setValueAt(rebuild.getIV(json, row, "unInstanceId") + " " + rebuild.getIV(json, row, "instanceName"), row, 0);
+            cInstanceID=rebuild.getIV(json, row, "unInstanceId");
+            hostStatus.setValueAt(rebuild.getIV(json, row, "unInstanceId") + "·" + rebuild.getIV(json, row, "instanceName"), row, 0);
             hostStatus.setValueAt(rebuild.getIV(json, row, "status"), row, 1);
             hostStatus.setValueAt(rebuild.getIV(json, row, "os"), row, 2);
             hostStatus.setValueAt(rebuild.getIV(json, row, "cpu") + "核 "
@@ -599,7 +614,8 @@ public class Console extends javax.swing.JFrame {
         if (hostStatus.getValueAt(hostStatus.getSelectedRow(), 0) != null) {
             reboot.setVisible(true);
             power.setVisible(true);
-            cDiskID = rebuild.uDiskID;
+            reset.setVisible(true);
+            cDiskID = rebuild.uDiskID;                       
         }
 
         if (hostStatus.getValueAt(hostStatus.getSelectedRow(), 1) == "运行中") {
@@ -614,6 +630,7 @@ public class Console extends javax.swing.JFrame {
             power.setToolTipText("嗷呜等等吧");
             power.setVisible(false);
             reboot.setVisible(false);
+            reset.setVisible(false);
         }
     }//GEN-LAST:event_hostStatusMouseClicked
 
@@ -799,6 +816,17 @@ public class Console extends javax.swing.JFrame {
         
     }//GEN-LAST:event_suMouseClicked
 
+    private void resetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resetMouseClicked
+        // TODO add your handling code here:重装系统
+        Reset newWindow=new Reset();
+        //System.out.println("console instanceid? "+cInstanceID);
+        newWindow.rInstanceID=cInstanceID;
+        newWindow.rAuth=cAuth;
+        newWindow.rRegion=cRegion;
+        newWindow.setVisible(true);
+        
+    }//GEN-LAST:event_resetMouseClicked
+
     private void showPopupMenu(MouseEvent e) {
         jPopupMenu1.show(this, e.getX(), e.getY());
 }
@@ -858,6 +886,7 @@ public class Console extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JButton power;
     private javax.swing.JButton reboot;
+    private javax.swing.JButton reset;
     private javax.swing.JButton restore;
     private javax.swing.JRadioButton sg;
     private javax.swing.JRadioButton sh;

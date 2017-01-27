@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
+    <Property name="title" type="java.lang.String" value="&#x91cd;&#x88c5;&#x7cfb;&#x7edf;"/>
+    <Property name="iconImage" type="java.awt.Image" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+      <Connection code="Toolkit.getDefaultToolkit().getImage(getClass().getResource(&quot;/com/benny/images/ico.png&quot;))" type="code"/>
+    </Property>
+    <Property name="resizable" type="boolean" value="false"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" attributes="0">
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="149" max="-2" attributes="0"/>
+                      <Component id="ConfirmReset" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <Component id="OSType" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="OSPassword" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace pref="95" max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="OSType" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="OSPassword" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="60" max="32767" attributes="0"/>
+              <Component id="ConfirmReset" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JButton" name="ConfirmReset">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&#x786e;&#x5b9a;&#x91cd;&#x88c5;"/>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="ConfirmResetMouseClicked"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="OSType">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="18">
+            <StringItem index="0" value="&#x5f53;&#x524d;&#x7cfb;&#x7edf;"/>
+            <StringItem index="1" value="CentOS 6.7 32&#x4f4d;"/>
+            <StringItem index="2" value="CentOS 6.7 64&#x4f4d;"/>
+            <StringItem index="3" value="CentOS 7.2 64&#x4f4d;"/>
+            <StringItem index="4" value="Debian 8.2 32&#x4f4d;"/>
+            <StringItem index="5" value="Debian 8.2 64&#x4f4d;"/>
+            <StringItem index="6" value="Debian 7.8 32&#x4f4d;"/>
+            <StringItem index="7" value="Debian 7.8 64&#x4f4d;"/>
+            <StringItem index="8" value="openSUSE 13.2 64&#x4f4d;"/>
+            <StringItem index="9" value="FreeBSD 10.1 64&#x4f4d;"/>
+            <StringItem index="10" value="CoreOS 717.3.0 64&#x4f4d;"/>
+            <StringItem index="11" value="Ubuntu Server 14.04.1 LTS 32&#x4f4d;"/>
+            <StringItem index="12" value="Ubuntu Server 14.04.1 LTS 64&#x4f4d;"/>
+            <StringItem index="13" value="Ubuntu Server 16.04.1 LTS 32&#x4f4d;"/>
+            <StringItem index="14" value="Ubuntu Server 16.04.1 LTS 64&#x4f4d;"/>
+            <StringItem index="15" value="Windows Server 2012 R2 &#x6807;&#x51c6;&#x7248; 64&#x4f4d;&#x4e2d;&#x6587;&#x7248;"/>
+            <StringItem index="16" value="Windows Server 2012 R2 &#x6570;&#x636e;&#x4e2d;&#x5fc3;&#x7248; 64&#x4f4d;&#x4e2d;&#x6587;&#x7248;"/>
+            <StringItem index="17" value="Windows Server 2008 R2 &#x4f01;&#x4e1a;&#x7248; SP1 64&#x4f4d;"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="OSPassword">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;Linux&#x5b9e;&#x4f8b;&#x5bc6;&#x7801;&#x5fc5;&#x987b;8&#x5230;16&#x4f4d;&#xff0c;&#x81f3;&#x5c11;&#x5305;&#x62ec;&#x4e24;&#x9879;[a-z&#xff0c;A-Z]&#x3001;[0-9] &#x548c; [( ) ` ~ ! @ # $ % ^ &amp; - + = | { } [ ] : ; &apos; , . ? / ]&#x4e2d;&#x7684;&#x7279;&#x6b8a;&#x7b26;&#x53f7;&#x3002;&lt;br&gt;&#xa;Windows&#x5b9e;&#x4f8b;&#x5bc6;&#x7801;&#x5fc5;&#x987b;12&#x5230;16&#x4f4d;&#xff0c;&#x81f3;&#x5c11;&#x5305;&#x62ec;&#x4e09;&#x9879;[a-z]&#xff0c;[A-Z]&#xff0c;[0-9] &#x548c; [( ) ` ~ ! @ # $ % ^ &amp; - + = { } [ ] : ; &apos; , . ? /]&#x4e2d;&#x7684;&#x7279;&#x6b8a;&#x7b26;&#x53f7;&#x3002;&lt;/html&gt;"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&#x7cfb;&#x7edf;&#xff1a;"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&#x5bc6;&#x7801;&#xff1a;"/>
+      </Properties>
+    </Component>
+  </SubComponents>
+</Form>
