@@ -214,25 +214,21 @@ public class ConfigReader {
             + "secretID=" + content.get("secretID").toString() + sep
             + "secretKey=" + content.get("secretKey").toString() + sep
             + "comment=" + content.get("comment").toString() + sep;
-
-        BufferedWriter out = null;
+               
+            BufferedWriter out = null;
         try {
+            
             out = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream("configuration.ini", true)));
-                out.write(toBeWriten + "\r\n");
+            out.write(toBeWriten);
+            out.newLine();
+            out.flush();
             return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        } finally {
-            try {
-                out.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            
+        } catch (IOException ex) {
+            Logger.getLogger(ConfigReader.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-   
+            return false;
        
     }
      

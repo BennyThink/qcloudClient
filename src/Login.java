@@ -25,6 +25,8 @@ import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -163,27 +165,25 @@ public class Login extends javax.swing.JFrame {
     private void createDefaultConfig(){
         
         //默认配置文件
+        String sep = System.getProperty("line.separator");
         JOptionPane.showMessageDialog(null, "第一次使用，请先添加配置文件", "提示", JOptionPane.INFORMATION_MESSAGE);
-        String toBeWriten = "[Sessions]\r\n"+"[Sessions]\r\n"
-            + "name=默认站点\r\n"
-            + "secretID=你的secretID\r\n"
-            + "secretKey=你的secretKey\r\n"
-            + "comment=备注信息\r\n";
+        String toBeWriten = "[Sessions]"+sep+"[Sessions]"+ sep
+            + "name=默认站点"+ sep
+            + "secretID=你的secretID"+ sep
+            + "secretKey=你的secretKey"+ sep
+            + "comment=备注信息"+ sep;
 
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream("configuration.ini", true)));
-                out.write(toBeWriten + "\r\n");          
-        } catch (Exception e) {
-            e.printStackTrace();         
-        } finally {
-            try {
-                out.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                out.write(toBeWriten);
+                out.newLine();
+                out.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(ConfigReader.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         //弹出添加配置文件窗口
         java.awt.event.MouseEvent evt = null;
         jButton3MouseClicked(evt);
