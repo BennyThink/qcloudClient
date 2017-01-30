@@ -15,6 +15,8 @@
 # 更新日志 #
 * 2017年1月25日 修复了创建快照时的逻辑错误、删除快照时的处理方式
 * 2017年1月27日 修复所有已知bug、提升操作性
+* 2017年1月30日 乱码处理
+
 #功能#
 * 查询实例
 * 开机
@@ -24,10 +26,11 @@
 * 创建快照
 * 删除快照
 * 恢复快照
-* 重装系统（Under development）
+* 重装系统（Haven't tested yet.）
 
-#请注意#
-NetBeans默认使用UTF-8编码格式，而Windows并不是。所以如果在Windows下出现乱码请把`configuration.ini`转换成ANSI
+#关于乱码的一些说明#
+Windows默认是使用ANSI（或者说GB2312更适合），而NetBeans默认使用UTF-8；
+默认已经能够识别大部分编码了，如果错误，请手动转换成自己平台的ANSI！
 
 ##许可证##
-GPL v3
+GPL v2, thanks to JSON.org, Mozilla.org's chardet!
