@@ -208,12 +208,12 @@ public class ConfigReader {
     public boolean append(Map content){
         
         //将map内容写入配置文件
-      
-        String toBeWriten = "[Sessions]" + "\r\n"
-            + "name=" + content.get("name").toString() + "\r\n"
-            + "secretID=" + content.get("secretID").toString() + "\r\n"
-            + "secretKey=" + content.get("secretKey").toString() + "\r\n"
-            + "comment=" + content.get("comment").toString() + "\r\n";
+        String sep = System.getProperty("line.separator");
+        String toBeWriten = "[Sessions]" + sep
+            + "name=" + content.get("name").toString() + sep
+            + "secretID=" + content.get("secretID").toString() + sep
+            + "secretKey=" + content.get("secretKey").toString() + sep
+            + "comment=" + content.get("comment").toString() + sep;
 
         BufferedWriter out = null;
         try {
