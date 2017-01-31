@@ -151,11 +151,11 @@ public class Login extends javax.swing.JFrame {
      * 检查配置文件是否存在
      * @return 存在与否
      */
-    private boolean isExist(){
-    File file = new File("configuration.ini");
+    private boolean isExist() {
+        File file = new File("configuration.ini");
         if (file.exists()) 
             return true;
-        else
+        else 
             return false;
         
     }
@@ -265,7 +265,7 @@ public class Login extends javax.swing.JFrame {
         Console start=new Console();
         start.setVar(acquireName, acquireSecretID, acquireSecretKey);
         start.setVisible(true);
-        this.setVisible(false);
+        this.dispose();
         
     }//GEN-LAST:event_jButton2MouseClicked
 
