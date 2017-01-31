@@ -133,20 +133,23 @@ public class Login extends javax.swing.JFrame {
      * 加载配置文件
      */
     private void loadConfig(){
-    
-    if(isExist()){
-        ConfigReader reader = new ConfigReader("configuration.ini");          
-        List acquireName= reader.get("Sessions","name");
-        //List acquireComment= reader.get("Sessions","comment");
-        DefaultListModel listModel = new DefaultListModel();
-        chooseHost.setModel(listModel);
-        for(int i=0;i<acquireName.size();i++)
-            listModel.addElement(acquireName.get(i).toString());
+        if (isExist()) {
+            ConfigReader reader = new ConfigReader("configuration.ini");
+            List acquireName = reader.get("Sessions", "name");
+            //List acquireComment= reader.get("Sessions","comment");
+            DefaultListModel listModel = new DefaultListModel();
+            chooseHost.setModel(listModel);
+            for (int i = 0; i < acquireName.size(); i++) {
+                listModel.addElement(acquireName.get(i).toString());
+            }
+        } else {
+            ConfigReader reader = new ConfigReader();
+            java.awt.event.MouseEvent evt = null;
+            jButton3MouseClicked(evt);
         }
-        else
-            createDefaultConfig();
     
     }
+    
     /**
      * 检查配置文件是否存在
      * @return 存在与否

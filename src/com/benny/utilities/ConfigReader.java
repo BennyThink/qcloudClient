@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
  
 /**
  * 类名：读取配置类<br>
@@ -89,7 +90,29 @@ public class ConfigReader {
         
 
     }
-    
+    public ConfigReader() {
+
+        //默认配置文件
+        String sep = System.getProperty("line.separator");
+        JOptionPane.showMessageDialog(null, "第一次使用，请先添加配置文件", "提示", JOptionPane.INFORMATION_MESSAGE);
+        String toBeWriten = "[Sessions]" + sep + "[Sessions]" + sep
+            + "name=默认站点" + sep
+            + "secretID=你的secretID" + sep
+            + "secretKey=你的secretKey" + sep
+            + "comment=备注信息" + sep;
+
+        BufferedWriter out = null;
+        try {
+            out = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream("configuration.ini", true)));
+            out.write(toBeWriten);
+            out.newLine();
+            out.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(ConfigReader.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
    
  
     /**
