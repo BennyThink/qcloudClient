@@ -142,14 +142,14 @@
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jScrollPane1" min="-2" pref="886" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
                                       <EmptySpace min="-2" pref="95" max="-2" attributes="0"/>
-                                      <Component id="power" min="-2" pref="64" max="-2" attributes="0"/>
+                                      <Component id="su" min="-2" pref="64" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="141" max="-2" attributes="0"/>
                                       <Component id="reboot" min="-2" pref="64" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="152" max="-2" attributes="0"/>
-                                      <Component id="su" min="-2" pref="64" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="148" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="154" max="-2" attributes="0"/>
+                                      <Component id="power" min="-2" pref="64" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="146" max="-2" attributes="0"/>
                                       <Component id="reset" min="-2" pref="64" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -176,9 +176,9 @@
                                       <Component id="jScrollPane1" min="-2" pref="133" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="134" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="su" alignment="1" min="-2" pref="64" max="-2" attributes="0"/>
-                                          <Component id="power" min="-2" pref="64" max="-2" attributes="0"/>
+                                          <Component id="power" alignment="1" min="-2" pref="64" max="-2" attributes="0"/>
                                           <Component id="reboot" alignment="0" min="-2" pref="64" max="-2" attributes="0"/>
+                                          <Component id="su" min="-2" pref="64" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -315,6 +315,9 @@
                     </Component>
                     <Component class="javax.swing.JButton" name="reset">
                       <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/com/benny/images/reinstall.png"/>
+                        </Property>
                         <Property name="toolTipText" type="java.lang.String" value="&#x91cd;&#x88c5;&#x7cfb;&#x7edf;"/>
                       </Properties>
                       <Events>

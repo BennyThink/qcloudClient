@@ -365,7 +365,7 @@ public class util {
 			System.out.println("error..." + e.getMessage());
 		}
             //return null;
-           return json_result.getString("code")+json_result.getString("message");
+           return json_result.getString("codeDesc")+json_result.getString("message");
      
     }
     

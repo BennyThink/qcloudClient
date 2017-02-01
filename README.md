@@ -26,10 +26,10 @@
 * 创建快照
 * 删除快照
 * 恢复快照
-* 重装系统（Haven't tested yet.）
+* 重装系统（test passed.）
 
 #关于乱码的一些说明#
-Windows默认是使用ANSI（或者说GB2312更适合），而NetBeans默认使用UTF-8；
+Windows默认是使用ANSI（或者说GB2312更合适），而NetBeans默认使用UTF-8；
 默认已经能够识别大部分编码了，如果错误，请手动转换成自己平台的ANSI！
 
 ##许可证##

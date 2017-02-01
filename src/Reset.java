@@ -129,10 +129,8 @@ public class Reset extends javax.swing.JFrame {
         str=str.replace(",", "").replace("[", "").replace("]", "").replace(" ", "");       
         util test=new util();
         str=test.resetOS(rAuth, rRegion, rInstanceID, str,test.getImageID(OSType.getSelectedItem().toString()));
-        if(str=="1")
-            JOptionPane.showMessageDialog(rootPane, "重装成功");
-        else
-            JOptionPane.showMessageDialog(rootPane, "错误代码"+str,"重装出错了",JOptionPane.INFORMATION_MESSAGE);
+        
+        JOptionPane.showMessageDialog(rootPane, "状态： "+str,"重装状态",JOptionPane.INFORMATION_MESSAGE);
         
         
         
