@@ -17,11 +17,16 @@
  */
 
 import com.benny.utilities.util;
+import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.MouseListener;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.plaf.FontUIResource;
 
 /**
  *
@@ -38,7 +43,8 @@ public class Reset extends javax.swing.JFrame {
     public Reset() {
         initComponents();
         setLocationRelativeTo(null);
-       
+        ConfirmReset.setEnabled(false);
+     
     }
 
     /**
@@ -54,6 +60,9 @@ public class Reset extends javax.swing.JFrame {
         OSPassword = new javax.swing.JPasswordField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        OSConfirm = new javax.swing.JPasswordField();
+        warning = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("重装系统");
@@ -70,10 +79,26 @@ public class Reset extends javax.swing.JFrame {
         OSType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "当前系统", "CentOS 6.7 32位", "CentOS 6.7 64位", "CentOS 7.2 64位", "Debian 8.2 32位", "Debian 8.2 64位", "Debian 7.8 32位", "Debian 7.8 64位", "openSUSE 13.2 64位", "FreeBSD 10.1 64位", "CoreOS 717.3.0 64位", "Ubuntu Server 14.04.1 LTS 32位", "Ubuntu Server 14.04.1 LTS 64位", "Ubuntu Server 16.04.1 LTS 32位", "Ubuntu Server 16.04.1 LTS 64位", "Windows Server 2012 R2 标准版 64位中文版", "Windows Server 2012 R2 数据中心版 64位中文版", "Windows Server 2008 R2 企业版 SP1 64位" }));
 
         OSPassword.setToolTipText("<html>Linux实例密码必须8到16位，至少包括两项[a-z，A-Z]、[0-9] 和 [( ) ` ~ ! @ # $ % ^ & - + = | { } [ ] : ; ' , . ? / ]中的特殊符号。<br>\nWindows实例密码必须12到16位，至少包括三项[a-z]，[A-Z]，[0-9] 和 [( ) ` ~ ! @ # $ % ^ & - + = { } [ ] : ; ' , . ? /]中的特殊符号。</html>");
+        OSPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                OSPasswordKeyReleased(evt);
+            }
+        });
 
         jLabel1.setText("系统：");
 
         jLabel2.setText("密码：");
+
+        jLabel3.setText("确认：");
+
+        OSConfirm.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                OSConfirmKeyReleased(evt);
+            }
+        });
+
+        warning.setFont(new java.awt.Font("宋体", 1, 12)); // NOI18N
+        warning.setForeground(java.awt.Color.red);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -93,8 +118,15 @@ public class Reset extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addComponent(OSPassword)))
-                .addContainerGap(95, Short.MAX_VALUE))
+                        .addComponent(OSPassword))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(OSConfirm)))
+                .addGap(18, 18, 18)
+                .addComponent(warning, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,34 +139,66 @@ public class Reset extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(OSPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(OSConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(warning, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16)
                 .addComponent(ConfirmReset)
                 .addGap(63, 63, 63))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+  
     private void ConfirmResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ConfirmResetMouseClicked
         // TODO add your handling code here:重装确定按钮
         //rRegion是中文名字
        //
-        if(OSPassword.getPassword().length!=0)
-           System.out.println(rAuth+"\n"+rInstanceID+rRegion);
-        else{
-            JOptionPane.showMessageDialog(rootPane, "未输入密码");
-            return;}
+       if(!ConfirmReset.isEnabled())
+           return;
+        else {
+            //System.out.println(rAuth+"\n"+rInstanceID+rRegion);
+            String str = Arrays.toString(OSPassword.getPassword());
+            str = str.replace(",", "").replace("[", "").replace("]", "").replace(" ", "");
+            util test = new util();
+            str = test.resetOS(rAuth, rRegion, rInstanceID, str, test.getImageID(OSType.getSelectedItem().toString()));
+            JOptionPane.showMessageDialog(rootPane, "状态： " + str, "重装状态", JOptionPane.INFORMATION_MESSAGE);
+        }
 
-        String str=Arrays.toString(OSPassword.getPassword());
-        str=str.replace(",", "").replace("[", "").replace("]", "").replace(" ", "");       
-        util test=new util();
-        str=test.resetOS(rAuth, rRegion, rInstanceID, str,test.getImageID(OSType.getSelectedItem().toString()));
-        
-        JOptionPane.showMessageDialog(rootPane, "状态： "+str,"重装状态",JOptionPane.INFORMATION_MESSAGE);
+       
         
         
         
     }//GEN-LAST:event_ConfirmResetMouseClicked
+
+    
+    
+    private void OSConfirmKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_OSConfirmKeyReleased
+        // TODO add your handling code here:
+           
+        if (!Arrays.toString(OSPassword.getPassword()).equals(Arrays.toString(OSConfirm.getPassword()))) {
+            ConfirmReset.setEnabled(false);
+            warning.setText("密码不符");
+        } else {
+            ConfirmReset.setEnabled(true);
+             warning.setText("");
+        }
+        
+    }//GEN-LAST:event_OSConfirmKeyReleased
+
+    private void OSPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_OSPasswordKeyReleased
+        // TODO add your handling code here:
+        
+         if (!Arrays.toString(OSPassword.getPassword()).equals(Arrays.toString(OSConfirm.getPassword()))) {
+            ConfirmReset.setEnabled(false);
+            //warning.setText("密码不符");
+        } else {
+            ConfirmReset.setEnabled(true);
+        }
+      
+    }//GEN-LAST:event_OSPasswordKeyReleased
 
     /**
      * @param args the command line arguments
@@ -174,9 +238,12 @@ public class Reset extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ConfirmReset;
+    private javax.swing.JPasswordField OSConfirm;
     private javax.swing.JPasswordField OSPassword;
     private javax.swing.JComboBox<String> OSType;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel warning;
     // End of variables declaration//GEN-END:variables
 }

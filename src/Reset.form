@@ -46,8 +46,16 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="OSPassword" max="32767" attributes="0"/>
                   </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="OSConfirm" max="32767" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace pref="95" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="warning" min="-2" pref="59" max="-2" attributes="0"/>
+              <EmptySpace pref="18" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -64,7 +72,13 @@
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="OSPassword" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="60" max="32767" attributes="0"/>
+              <EmptySpace pref="23" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="OSConfirm" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="warning" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
               <Component id="ConfirmReset" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
           </Group>
@@ -113,6 +127,9 @@
       <Properties>
         <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;Linux&#x5b9e;&#x4f8b;&#x5bc6;&#x7801;&#x5fc5;&#x987b;8&#x5230;16&#x4f4d;&#xff0c;&#x81f3;&#x5c11;&#x5305;&#x62ec;&#x4e24;&#x9879;[a-z&#xff0c;A-Z]&#x3001;[0-9] &#x548c; [( ) ` ~ ! @ # $ % ^ &amp; - + = | { } [ ] : ; &apos; , . ? / ]&#x4e2d;&#x7684;&#x7279;&#x6b8a;&#x7b26;&#x53f7;&#x3002;&lt;br&gt;&#xa;Windows&#x5b9e;&#x4f8b;&#x5bc6;&#x7801;&#x5fc5;&#x987b;12&#x5230;16&#x4f4d;&#xff0c;&#x81f3;&#x5c11;&#x5305;&#x62ec;&#x4e09;&#x9879;[a-z]&#xff0c;[A-Z]&#xff0c;[0-9] &#x548c; [( ) ` ~ ! @ # $ % ^ &amp; - + = { } [ ] : ; &apos; , . ? /]&#x4e2d;&#x7684;&#x7279;&#x6b8a;&#x7b26;&#x53f7;&#x3002;&lt;/html&gt;"/>
       </Properties>
+      <Events>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="OSPasswordKeyReleased"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
@@ -122,6 +139,26 @@
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#x5bc6;&#x7801;&#xff1a;"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&#x786e;&#x8ba4;&#xff1a;"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="OSConfirm">
+      <Events>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="OSConfirmKeyReleased"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="warning">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="&#x5b8b;&#x4f53;" size="12" style="1"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="0" green="0" id="red" palette="1" red="ff" type="palette"/>
+        </Property>
       </Properties>
     </Component>
   </SubComponents>
