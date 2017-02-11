@@ -456,6 +456,7 @@ public class Console extends javax.swing.JFrame {
             cDiskID=null;
             return;
         } else {
+            //查询到服务器
             System.out.println(json.getJSONArray("instanceSet").length());
         }
         for (int row = 0; row < json.getJSONArray("instanceSet").length(); row++) {
