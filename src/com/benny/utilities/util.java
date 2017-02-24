@@ -370,8 +370,7 @@ public class util {
     }
     
     
-    /////////////
-        public String guessFileEncoding(File file) throws FileNotFoundException, IOException {
+    public String guessFileEncoding(File file) throws FileNotFoundException, IOException {
         return guessFileEncoding(file, new nsDetector());
     }
 
@@ -458,7 +457,7 @@ public class util {
         return encoding;
     }
     
-    ////////////////
+    
     
     
 }

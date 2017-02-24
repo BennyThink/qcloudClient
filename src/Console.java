@@ -662,6 +662,14 @@ public class Console extends javax.swing.JFrame {
             this.setTitle(load); 
             return;
         }
+   
+        if (!hostStatus.getValueAt(hostStatus.getSelectedRow(), 4).toString().contains("云硬盘")) {
+            JOptionPane.showMessageDialog(rootPane, "非云硬盘无法创建快照", "提示", JOptionPane.INFORMATION_MESSAGE);
+            hostSet.setSelectedIndex(0);
+            this.setTitle(load);
+            return;
+        }
+
         //执行API
         json = rebuild.doSnapshot(cAuth, cRegion, null, "DescribeSnapshots", null);
         for (int row = 0; row < json.getJSONArray("snapshotSet").length(); row++) {   
