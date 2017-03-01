@@ -208,10 +208,12 @@ public class Console extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "实例ID/主机名", "状态", "操作系统", "配置", "磁盘类型", "IP地址", "到期日期"
+                "实例ID/主机名", "状态", "操作系统", "配置", "磁盘ID/类型", "IP地址", "到期日期"
             }
         ) {
             Class[] types = new Class [] {
@@ -280,9 +282,6 @@ public class Console extends javax.swing.JFrame {
                         .addGap(10, 10, 10)
                         .addComponent(ca))
                     .addGroup(instanceLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 886, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(instanceLayout.createSequentialGroup()
                         .addGap(95, 95, 95)
                         .addComponent(su, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(141, 141, 141)
@@ -290,8 +289,11 @@ public class Console extends javax.swing.JFrame {
                         .addGap(154, 154, 154)
                         .addComponent(power, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(146, 146, 146)
-                        .addComponent(reset, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(123, Short.MAX_VALUE))
+                        .addComponent(reset, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(instanceLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 951, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
         instanceLayout.setVerticalGroup(
             instanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -618,7 +620,7 @@ public class Console extends javax.swing.JFrame {
             reboot.setVisible(true);
             power.setVisible(true);
             reset.setVisible(true);
-            cDiskID = rebuild.uDiskID;                       
+            cDiskID = rebuild.uDiskID;      //存储diskID    
         }
 
         if (hostStatus.getValueAt(hostStatus.getSelectedRow(), 1) == "运行中") {
@@ -655,6 +657,9 @@ public class Console extends javax.swing.JFrame {
         // TODO add your handling code here:获取快照信息.
         //这里有个隐藏的信息，是查询所有快照啊！假如用户有两个以上不同主机的快照呢。
         //根据diskID过滤下？
+        //获取当前已选的diskID correct
+        String realDiskID=hostStatus.getValueAt(hostStatus.getSelectedRow(), 4).toString();
+        cDiskID=realDiskID.substring(0,realDiskID.lastIndexOf("·"));
         loading();
         if (cDiskID == null && hostSet.getSelectedIndex() == 1) {
             JOptionPane.showMessageDialog(rootPane, "未选择主机", "提示", JOptionPane.INFORMATION_MESSAGE);
@@ -670,8 +675,9 @@ public class Console extends javax.swing.JFrame {
             return;
         }
 
-        //执行API
-        json = rebuild.doSnapshot(cAuth, cRegion, null, "DescribeSnapshots", null);
+        //执行查询快照API，查询指定的
+        //System.out.println("选择的diskID "+cDiskID);
+        json = rebuild.doSnapshot(cAuth, cRegion, cDiskID, "DescribeSnapshots", null);
         for (int row = 0; row < json.getJSONArray("snapshotSet").length(); row++) {   
             //设置快照表格
             snapshotList.setValueAt(rebuild.getSV(json, row, "snapshotId"), row, 0);

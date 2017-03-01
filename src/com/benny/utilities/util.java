@@ -149,12 +149,11 @@ public class util {
         //实例ID和硬盘ID
         uDiskInfo=(JSONObject)obj.getJSONArray("instanceSet").getJSONObject(loc).get("diskInfo");
         uDiskID=uDiskInfo.get("rootId").toString();
-        
         if("status".equals(key))    
             return convertStatus(obj.getJSONArray("instanceSet").getJSONObject(loc).get(key).toString());          
         else if("diskInfo".equals(key)) //硬盘 
         {   uDiskInfo=(JSONObject)obj.getJSONArray("instanceSet").getJSONObject(loc).get("diskInfo");
-        return convertStatus(uDiskInfo.get("rootType"))+uDiskInfo.get("rootSize")+"G";     
+        return uDiskID+"·"+convertStatus(uDiskInfo.get("rootType"))+uDiskInfo.get("rootSize")+"G";     
         }
         else
         return obj.getJSONArray("instanceSet").getJSONObject(loc).get(key).toString();
@@ -283,7 +282,9 @@ public class util {
 				config);
 		TreeMap<String, Object> params = new TreeMap<String, Object>();//instanceIds.0
         if(Action=="DescribeSnapshots")
-            params.put("limits", 3);
+        { params.put("limits", 3);
+         params.put("storageIds.0", diskID);
+        }
         if(Action=="DeleteSnapshot")
             params.put("snapshotIds.0", diskID);
         

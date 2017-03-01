@@ -138,10 +138,6 @@
                                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                                       <Component id="ca" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jScrollPane1" min="-2" pref="886" max="-2" attributes="0"/>
-                                  </Group>
                                   <Group type="102" attributes="0">
                                       <EmptySpace min="-2" pref="95" max="-2" attributes="0"/>
                                       <Component id="su" min="-2" pref="64" max="-2" attributes="0"/>
@@ -152,8 +148,12 @@
                                       <EmptySpace min="-2" pref="146" max="-2" attributes="0"/>
                                       <Component id="reset" min="-2" pref="64" max="-2" attributes="0"/>
                                   </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jScrollPane1" min="-2" pref="951" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
-                              <EmptySpace pref="123" max="32767" attributes="0"/>
+                              <EmptySpace pref="58" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -264,12 +264,12 @@
                         <Component class="javax.swing.JTable" name="hostStatus">
                           <Properties>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                              <Table columnCount="7" rowCount="5">
+                              <Table columnCount="7" rowCount="7">
                                 <Column editable="true" title="&#x5b9e;&#x4f8b;ID/&#x4e3b;&#x673a;&#x540d;" type="java.lang.String"/>
                                 <Column editable="true" title="&#x72b6;&#x6001;" type="java.lang.String"/>
                                 <Column editable="true" title="&#x64cd;&#x4f5c;&#x7cfb;&#x7edf;" type="java.lang.String"/>
                                 <Column editable="true" title="&#x914d;&#x7f6e;" type="java.lang.String"/>
-                                <Column editable="true" title="&#x78c1;&#x76d8;&#x7c7b;&#x578b;" type="java.lang.String"/>
+                                <Column editable="true" title="&#x78c1;&#x76d8;ID/&#x7c7b;&#x578b;" type="java.lang.String"/>
                                 <Column editable="true" title="IP&#x5730;&#x5740;" type="java.lang.String"/>
                                 <Column editable="true" title="&#x5230;&#x671f;&#x65e5;&#x671f;" type="java.lang.String"/>
                               </Table>
