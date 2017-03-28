@@ -2,17 +2,17 @@
 一个使用Java编写的腾讯云本地客户端<br>
 开发工具：NetBeans
 
-#这是啥#
+# 这是啥 #
 一个方便管理腾讯云服务器的Java应用程序，尤其是那些有着多个学生优惠的童鞋。可以跨平台使用。
 
-#下载#
+# 下载 #
 [GitHub Release](https://github.com/BennyThink/qcloudClient/releases "GitHub Release")
 
 #使用条件与方法#
 需要安装JDK或者JRE，解压缩然后双击`qcloudClient.jar`,如无法运行，那就切换到对应的目录运行`java -jar qcloudClient.jar`即可。
 详细说明[戳我啦](https://www.bennythink.com/qclient.html "土豆不好吃")
 
-#功能#
+# 功能 #
 * 查询实例
 * 开机
 * 关机
@@ -34,5 +34,5 @@ Windows默认是使用ANSI（或者说GB2312更合适），而NetBeans默认使�
 ## 后续计划 ##
 我大概想不出来什么后续计划了...这小玩意已经基本满足了我的需求。
 
-##许可证##
+## 许可证 ##
 GPL v2, thanks to JSON.org, Mozilla.org's chardet!
