@@ -11,4 +11,12 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 /build/
-/dist/
+/dist/configuration.ini
+nbproject/build-impl.xml
+nbproject/build-impl.xml~
+nbproject/genfiles.properties
+nbproject/private
+nbproject/project.properties
+nbproject/project.xml
+nbproject
+configuration.ini
