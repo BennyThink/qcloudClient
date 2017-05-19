@@ -8,7 +8,7 @@
 # 下载 #
 [GitHub Release](https://github.com/BennyThink/qcloudClient/releases "GitHub Release")
 
-#使用条件与方法#
+# 使用条件与方法 #
 需要安装JDK或者JRE，解压缩然后双击`qcloudClient.jar`,如无法运行，那就切换到对应的目录运行`java -jar qcloudClient.jar`即可。
 详细说明[戳我啦](https://www.bennythink.com/qclient.html "土豆不好吃")
 
